@@ -5,6 +5,7 @@ import {
   type JSX,
   onCleanup,
   Show,
+  untrack,
 } from "solid-js";
 import { t } from "../../localization/localizationProvider";
 import { getDeepActiveElement } from "../../utils/dom";
@@ -23,16 +24,18 @@ export type DialogProps = {
 };
 
 const MARGIN_PX = 16;
-const EXIT_DURATION_MS = 260;
+const ENTER_MS = 360;
+const EXIT_MS = 200;
+const SPRING = "cubic-bezier(0.34, 1.4, 0.64, 1)";
+const SOFT = "cubic-bezier(0.22, 1, 0.36, 1)";
 
 export function Dialog(props: DialogProps): JSX.Element {
   const titleId = `vot-dialog-title-${createUniqueId()}`;
-  // `mounted` keeps the dialog in the layout while its exit animation plays;
-  // `visible` drives the enter/exit CSS state.
+  // `mounted` keeps the dialog in the layout while its exit animation plays.
+  // Animations use the Web Animations API instead of CSS transitions so that
+  // they run identically in Safari, Chrome and Firefox.
   const [mounted, setMounted] = createSignal(props.isOpen);
   const [visible, setVisible] = createSignal(false);
-  let exitTimer: ReturnType<typeof setTimeout> | undefined;
-  let enterRaf: number | undefined;
   let container: HTMLElement | undefined;
   let box: HTMLElement | undefined;
   let contentWrapper: HTMLElement | undefined;
@@ -40,6 +43,94 @@ export function Dialog(props: DialogProps): JSX.Element {
   let previouslyFocused: Element | null = null;
   let adaptiveAlignObserver: ResizeObserver | undefined;
   let adaptiveAlignRaf: number | undefined;
+  let backdrop: HTMLElement | undefined;
+  let runningAnimations: Animation[] = [];
+  const prefersReducedMotion = () =>
+    globalThis.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+  const cancelAnimations = () => {
+    for (const animation of runningAnimations) animation.cancel();
+    runningAnimations = [];
+  };
+
+  const play = (
+    element: HTMLElement | undefined,
+    keyframes: Keyframe[],
+    options: KeyframeAnimationOptions,
+  ): Animation | undefined => {
+    if (!element || typeof element.animate !== "function") return undefined;
+    const animation = element.animate(keyframes, options);
+    runningAnimations.push(animation);
+    return animation;
+  };
+
+  const playEnter = () => {
+    cancelAnimations();
+    const reduced = prefersReducedMotion();
+    play(backdrop, [{ opacity: 0 }, { opacity: 1 }], {
+      duration: reduced ? 120 : 280,
+      easing: SOFT,
+    });
+    play(box, [{ opacity: 0 }, { opacity: 1 }], {
+      duration: reduced ? 120 : 260,
+      easing: SOFT,
+    });
+    if (reduced) return;
+    play(
+      box,
+      [
+        { transform: "translateY(14px) scale(0.96)", filter: "blur(4px)" },
+        { transform: "translateY(0) scale(1)", filter: "blur(0px)" },
+      ],
+      { duration: ENTER_MS, easing: SPRING },
+    );
+  };
+
+  const playExit = (onDone: () => void) => {
+    cancelAnimations();
+    const reduced = prefersReducedMotion();
+    const duration = reduced ? 100 : EXIT_MS;
+    const animations = [
+      play(backdrop, [{ opacity: 1 }, { opacity: 0 }], {
+        duration,
+        easing: SOFT,
+        fill: "forwards",
+      }),
+      play(
+        box,
+        reduced
+          ? [{ opacity: 1 }, { opacity: 0 }]
+          : [
+              {
+                opacity: 1,
+                transform: "translateY(0) scale(1)",
+                filter: "blur(0px)",
+              },
+              {
+                opacity: 0,
+                transform: "translateY(10px) scale(0.97)",
+                filter: "blur(3px)",
+              },
+            ],
+        { duration, easing: SOFT, fill: "forwards" },
+      ),
+    ].filter((animation): animation is Animation => !!animation);
+
+    if (!animations.length) {
+      onDone();
+      return;
+    }
+    Promise.allSettled(animations.map((animation) => animation.finished)).then(
+      () => {
+        // A reopen cancels the exit animations; do not unmount in that case.
+        if (
+          animations.every((animation) => animation.playState === "finished")
+        ) {
+          onDone();
+        }
+      },
+    );
+  };
 
   const getFocusableElements = (): HTMLElement[] => {
     if (!container) return [];
@@ -148,33 +239,22 @@ export function Dialog(props: DialogProps): JSX.Element {
   };
 
   createEffect(() => {
-    if (exitTimer !== undefined) {
-      clearTimeout(exitTimer);
-      exitTimer = undefined;
-    }
-    if (enterRaf !== undefined) {
-      cancelAnimationFrame(enterRaf);
-      enterRaf = undefined;
-    }
-
     if (props.isOpen) {
       setMounted(true);
-      // Two frames: the closed state must be painted once before it can
-      // transition to the open one.
-      enterRaf = requestAnimationFrame(() => {
-        enterRaf = requestAnimationFrame(() => setVisible(true));
-      });
+      setVisible(true);
+      playEnter();
       return;
     }
 
     setVisible(false);
-    exitTimer = setTimeout(() => setMounted(false), EXIT_DURATION_MS);
+    if (!untrack(mounted)) return;
+    playExit(() => {
+      cancelAnimations();
+      if (!props.isOpen) setMounted(false);
+    });
   });
 
-  onCleanup(() => {
-    if (exitTimer !== undefined) clearTimeout(exitTimer);
-    if (enterRaf !== undefined) cancelAnimationFrame(enterRaf);
-  });
+  onCleanup(cancelAnimations);
 
   createEffect(() => {
     if (!props.isOpen) return;
@@ -222,6 +302,7 @@ export function Dialog(props: DialogProps): JSX.Element {
       }}
     >
       <vot-block
+        ref={(element) => (backdrop = element)}
         class="vot-dialog-backdrop"
         data-state={visible() ? "open" : "closed"}
         onClick={(event) => {

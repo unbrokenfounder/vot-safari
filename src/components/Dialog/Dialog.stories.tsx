@@ -91,9 +91,20 @@ export const Default: Story = {
       expect(getDeepActiveElement(document)).toBe(closeButton),
     );
     if (closeButton) {
+      await waitFor(() => expect(dialog).toHaveAttribute("data-state", "open"));
+      await new Promise((r) => setTimeout(r, 450));
       await userEvent.click(closeButton);
       await expect(onClose).toHaveBeenCalledOnce();
-      await expect(overlay).toHaveAttribute("aria-hidden", "true");
+      // The dialog stays mounted while its exit animation plays.
+      await expect(dialog).toHaveAttribute("data-state", "closed");
+      await new Promise((r) => setTimeout(r, 70));
+      const mid = getComputedStyle(dialog as HTMLElement);
+      await expect(Number(mid.opacity)).toBeGreaterThan(0);
+      await expect(Number(mid.opacity)).toBeLessThan(1);
+      await expect(overlay).not.toHaveAttribute("aria-hidden");
+      await waitFor(() =>
+        expect(overlay).toHaveAttribute("aria-hidden", "true"),
+      );
       await expect(getDeepActiveElement(document)).toBe(trigger);
     }
   },
