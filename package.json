@@ -42,7 +42,8 @@
     "lint": "biome lint ./src ./vite",
     "format": "biome check --write ./src ./vite",
     "localize": "bunx \"@toil/localize-tui\"",
-    "postinstall": "wxt prepare"
+    "postinstall": "wxt prepare",
+    "build:safari": "bash scripts/build-safari.sh"
   },
   "dependencies": {
     "@toil/gm-types": "^1.0.6",

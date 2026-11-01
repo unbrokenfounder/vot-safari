@@ -5,3 +5,7 @@ web-ext.config.ts
 logs
 *.log
 .DS_Store
+xcuserdata/
+*.xcuserstate
+DerivedData/
+dist-ext

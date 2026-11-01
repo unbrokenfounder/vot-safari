@@ -14,15 +14,18 @@ npm run build          # результат: .output/chrome-mv3
 
 ## Safari
 
-```bash
-xcrun safari-web-extension-converter .output/chrome-mv3 \
-  --project-location ~/Desktop/vot-safari --app-name "VOT Safari" --macos-only
-```
+В репозитории лежит готовый проект Xcode: `safari/VOT Safari/VOT Safari.xcodeproj`.
+Он собирает расширение из `.output/chrome-mv3`, поэтому сначала выполните
+`npm run build`.
 
-Откройте проект в Xcode, выберите команду для подписи (Personal Team
-подойдёт), запустите приложение (⌘R) и включите расширение в
-Safari → Settings → Extensions. Для неподписанной сборки в меню Develop включите
-Allow Unsigned Extensions.
+1. Откройте проект в Xcode, в Signing & Capabilities у обоих таргетов (приложение
+   и расширение) выберите свою команду (подойдёт бесплатный Apple ID, Personal Team).
+2. Запустите приложение (⌘R).
+3. В Safari: Develop → Allow Unsigned Extensions, затем Settings → Extensions →
+   включите VOT Safari и разрешите доступ к сайтам.
+
+Проект можно пересоздать после изменения манифеста командой
+`npm run build:safari` (нужен полноценный Xcode).
 
 ## Разработка
 
