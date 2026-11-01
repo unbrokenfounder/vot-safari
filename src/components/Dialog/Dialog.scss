@@ -138,9 +138,7 @@
     justify-content: flex-end;
     flex-wrap: wrap;
     gap: var(--vot-space-2);
-    padding: var(--vot-space-4) var(--vot-space-6) !important;
-    border-top: 1px solid var(--vot-border-color);
-    margin-top: var(--vot-space-4) !important;
+    padding: var(--vot-space-4) var(--vot-space-6) var(--vot-space-6) !important;
   }
 }
 
