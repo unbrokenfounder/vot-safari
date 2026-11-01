@@ -1,12 +1,10 @@
 .vot-about-section {
-  --vot-about-sep-color: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.12);
-
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
+  padding: var(--vot-space-1) 0;
 
-  > .vot-about-item:not(:last-child) {
-    border-bottom: 1px solid var(--vot-about-sep-color);
-    padding-bottom: 1em;
+  &__actions {
+    display: flex;
+    padding: var(--vot-space-2) var(--vot-space-4) var(--vot-space-3);
   }
 }

@@ -87,7 +87,12 @@
 
   pointer-events: none;
 
-  transition: none;
+  scale: 0.96;
+
+  transition:
+    opacity 160ms var(--vot-acc-ease),
+    scale 220ms var(--vot-easing-spring),
+    visibility 160ms linear;
 
   &[hidden] {
     display: none !important;
@@ -103,6 +108,8 @@
     visibility: visible;
 
     pointer-events: auto;
+
+    scale: 1;
   }
 
   &[data-placement="top"] {
@@ -122,6 +129,8 @@
   }
 
   &.is-closing {
+    scale: 0.96;
+
     opacity: 0;
 
     transform: none;

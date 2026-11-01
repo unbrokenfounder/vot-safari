@@ -30,11 +30,16 @@
   transform-origin: top;
   transform: translate(-50%) scale(1);
   transition:
-    opacity var(--vot-duration-medium) var(--vot-easing-standard),
-    transform var(--vot-duration-medium) var(--vot-easing-standard);
+    opacity 200ms var(--vot-acc-ease),
+    transform 260ms var(--vot-easing-spring),
+    visibility 200ms linear;
 
+  // The base overlay uses display:none when hidden, which would cut the exit
+  // animation. `visibility` is transitioned instead, so the menu fades out
+  // first and only then becomes inert.
   &[aria-hidden="true"] {
-    transform: translate(-50%, -4px) scale(0.98);
+    display: block;
+    transform: translate(-50%, -8px) scale(0.96);
   }
 
   &[data-position="left"],
@@ -112,14 +117,14 @@
 
   &[data-position="left"][aria-hidden="true"],
   &[data-position="right"][aria-hidden="true"] {
-    transform: translateY(-4px) scale(0.98);
+    transform: translateY(-8px) scale(0.96);
   }
 
   &[data-position="leftCenter"][aria-hidden="true"],
   &[data-position="rightCenter"][aria-hidden="true"],
   &[data-compact][data-position="left"][aria-hidden="true"],
   &[data-compact][data-position="right"][aria-hidden="true"] {
-    transform: translateY(calc(-50% - 4px)) scale(0.98);
+    transform: translateY(calc(-50% - 8px)) scale(0.96);
   }
 
   &[data-vertical]:not([data-position="default"]) {

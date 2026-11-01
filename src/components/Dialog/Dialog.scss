@@ -35,12 +35,25 @@
   overflow: auto;
   overflow-y: hidden;
 
-  opacity: 1;
+  // Enter: rise + scale with a soft overshoot. Exit: quicker fade-down.
+  opacity: 0;
   transform-origin: center;
-  transform: scale(1);
+  transform: translateY(12px) scale(0.96);
+  filter: blur(4px);
   transition:
-    opacity var(--vot-duration-medium) var(--vot-easing-standard),
-    transform var(--vot-duration-medium) var(--vot-easing-standard);
+    opacity 180ms var(--vot-acc-ease),
+    transform 180ms var(--vot-acc-ease),
+    filter 180ms var(--vot-acc-ease);
+
+  &[data-state="open"] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+    transition:
+      opacity 260ms var(--vot-acc-ease),
+      transform 360ms var(--vot-easing-spring),
+      filter 260ms var(--vot-acc-ease);
+  }
 
   &[data-size="wide"] {
     --vot-dialog-width: 820px;
@@ -71,8 +84,13 @@
     bottom: 0;
     left: 0;
 
-    opacity: 1;
-    transition: opacity 0.3s;
+    opacity: 0;
+    transition: opacity 200ms var(--vot-acc-ease);
+
+    &[data-state="open"] {
+      opacity: 1;
+      transition-duration: 280ms;
+    }
   }
 
   &-content-wrapper {

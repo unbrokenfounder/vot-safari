@@ -1,5 +1,6 @@
 import {
   createEffect,
+  createSignal,
   createUniqueId,
   type JSX,
   onCleanup,
@@ -22,9 +23,16 @@ export type DialogProps = {
 };
 
 const MARGIN_PX = 16;
+const EXIT_DURATION_MS = 260;
 
 export function Dialog(props: DialogProps): JSX.Element {
   const titleId = `vot-dialog-title-${createUniqueId()}`;
+  // `mounted` keeps the dialog in the layout while its exit animation plays;
+  // `visible` drives the enter/exit CSS state.
+  const [mounted, setMounted] = createSignal(props.isOpen);
+  const [visible, setVisible] = createSignal(false);
+  let exitTimer: ReturnType<typeof setTimeout> | undefined;
+  let enterRaf: number | undefined;
   let container: HTMLElement | undefined;
   let box: HTMLElement | undefined;
   let contentWrapper: HTMLElement | undefined;
@@ -140,6 +148,35 @@ export function Dialog(props: DialogProps): JSX.Element {
   };
 
   createEffect(() => {
+    if (exitTimer !== undefined) {
+      clearTimeout(exitTimer);
+      exitTimer = undefined;
+    }
+    if (enterRaf !== undefined) {
+      cancelAnimationFrame(enterRaf);
+      enterRaf = undefined;
+    }
+
+    if (props.isOpen) {
+      setMounted(true);
+      // Two frames: the closed state must be painted once before it can
+      // transition to the open one.
+      enterRaf = requestAnimationFrame(() => {
+        enterRaf = requestAnimationFrame(() => setVisible(true));
+      });
+      return;
+    }
+
+    setVisible(false);
+    exitTimer = setTimeout(() => setMounted(false), EXIT_DURATION_MS);
+  });
+
+  onCleanup(() => {
+    if (exitTimer !== undefined) clearTimeout(exitTimer);
+    if (enterRaf !== undefined) cancelAnimationFrame(enterRaf);
+  });
+
+  createEffect(() => {
     if (!props.isOpen) return;
     previouslyFocused ??= getDeepActiveElement(document);
     if (typeof ResizeObserver !== "undefined" && contentWrapper) {
@@ -177,7 +214,7 @@ export function Dialog(props: DialogProps): JSX.Element {
         container = element;
         props.ref?.(element);
       }}
-      hidden={!props.isOpen}
+      hidden={!mounted()}
       classList={{ "vot-dialog-container": true }}
       blockProps={{
         inert: props.isOpen ? undefined : true,
@@ -186,6 +223,7 @@ export function Dialog(props: DialogProps): JSX.Element {
     >
       <vot-block
         class="vot-dialog-backdrop"
+        data-state={visible() ? "open" : "closed"}
         onClick={(event) => {
           event.stopPropagation();
           close();
@@ -195,6 +233,7 @@ export function Dialog(props: DialogProps): JSX.Element {
         ref={(element) => (box = element)}
         class="vot-dialog"
         data-vertical-align="center"
+        data-state={visible() ? "open" : "closed"}
         data-size={props.wide ? "wide" : undefined}
         role="dialog"
         aria-modal="true"

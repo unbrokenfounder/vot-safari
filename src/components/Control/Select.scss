@@ -87,6 +87,9 @@
     max-height: min(85vh, 350px, var(--vot-floating-available-height, 100vh));
     overflow: hidden;
     pointer-events: auto;
+    animation: vot-select-pop 200ms var(--vot-easing-spring) both;
+    transform-origin: top center;
+
     &.vot-select-inner__static-width {
       width: 100%;
     }
@@ -137,5 +140,22 @@
         background: rgba(var(--vot-onsurface-rgb), 0.12);
       }
     }
+  }
+}
+
+@keyframes vot-select-pop {
+  from {
+    opacity: 0;
+    scale: 0.96;
+  }
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vot-select-inner {
+    animation: none;
   }
 }

@@ -47,6 +47,14 @@ export function AboutSection(props: AboutSectionProps): JSX.Element {
     return updaterResult() ? "available" : "latest";
   };
 
+  function openCreditSite() {
+    globalThis.open(
+      "https://www.lurevelle.digital",
+      "_blank",
+      "noopener,noreferrer",
+    );
+  }
+
   function openLatestRelease() {
     globalThis.open(LATEST_RELEASE_URL, "_blank", "noopener,noreferrer");
   }
@@ -89,6 +97,21 @@ export function AboutSection(props: AboutSectionProps): JSX.Element {
         </vot-block>
       </AboutItem>
       <AboutItem label={t("VOTAuthors")}>{scriptAuthors}</AboutItem>
+      <AboutItem label="Safari-версия">
+        <vot-block
+          class="vot-about-item__credit-link"
+          role="link"
+          tabIndex={0}
+          onClick={() => openCreditSite()}
+          onKeyDown={(event) => {
+            if (event.key !== "Enter") return;
+            event.preventDefault();
+            openCreditSite();
+          }}
+        >
+          Lurevelle Digital
+        </vot-block>
+      </AboutItem>
       <AboutItem label={t("VOTLoader")}>{envInfo.loader}</AboutItem>
       <AboutItem label={t("VOTBrowser")}>{browserInfo}</AboutItem>
       <AboutItem label={t("VOTLocaleHash")}>
@@ -104,15 +127,17 @@ export function AboutSection(props: AboutSectionProps): JSX.Element {
           )}
         </Show>
       </AboutItem>
-      <OutlinedButton
-        onClick={async () => {
-          await votStorage.set("localeHash", "");
-          await localizationProvider.update(true);
-          globalThis.location.reload();
-        }}
-      >
-        {t("VOTUpdateLocaleFiles")}
-      </OutlinedButton>
+      <vot-block class="vot-about-section__actions">
+        <OutlinedButton
+          onClick={async () => {
+            await votStorage.set("localeHash", "");
+            await localizationProvider.update(true);
+            globalThis.location.reload();
+          }}
+        >
+          {t("VOTUpdateLocaleFiles")}
+        </OutlinedButton>
+      </vot-block>
     </vot-block>
   );
 }
