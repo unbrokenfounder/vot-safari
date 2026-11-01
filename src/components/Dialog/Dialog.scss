@@ -20,12 +20,13 @@
   inset-inline-end: 0;
   inset-block-start: 0;
   inset-block-end: 0;
-  border: 1px solid transparent;
+  border: 1px solid var(--vot-border-color);
   border-radius: var(--vot-radius-l);
   margin: auto !important;
   padding: 0 !important;
   color: var(--vot-helper-onsurface);
-  @include shared.vot-glass(var(--vot-glass-tint-strong));
+  background-color: var(--vot-glass-opaque);
+  box-shadow: none;
   @include shared.vot-font-family;
   font-size: 16px;
   line-height: 1.5;
@@ -59,7 +60,7 @@
   }
 
   &-backdrop {
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.7);
     position: fixed;
     top: 0;
     right: 0;
