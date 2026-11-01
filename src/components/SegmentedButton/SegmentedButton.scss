@@ -45,10 +45,31 @@
 
   // Live voices are marked with the same pink as in the voice picker.
   &[data-voice="live"] {
-    .vot-translate-button:not([data-status="error"]) .vot-segment-label,
     .vot-translate-button:not([data-status="error"]) .vot-dropdown-arrow {
       color: #ff7ac6;
       fill: #ff7ac6;
+    }
+
+    // Iridescent label: the gradient only flows while the button is hovered.
+    .vot-translate-button:not([data-status="error"]) .vot-segment-label {
+      color: #ff7ac6;
+      background-image: linear-gradient(
+        90deg,
+        #ff7ac6 0%,
+        #c49bff 25%,
+        #7ad0ff 50%,
+        #c49bff 75%,
+        #ff7ac6 100%
+      );
+      background-size: 300% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: vot-live-flow 2.4s linear infinite paused;
+    }
+
+    &:hover .vot-translate-button .vot-segment-label {
+      animation-play-state: running;
     }
   }
 
@@ -200,5 +221,20 @@
     width: 1px;
     height: 50%;
     background: rgba(var(--vot-helper-theme-rgb), 0.1);
+  }
+}
+
+@keyframes vot-live-flow {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 300% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vot-segmented-button[data-voice="live"] .vot-segment-label {
+    animation: none !important;
   }
 }

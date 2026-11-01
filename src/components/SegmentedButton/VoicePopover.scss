@@ -1,5 +1,28 @@
 @use "../mixins" as shared;
 
+// Slow iridescent sweep behind the live voice card while it is hovered.
+@mixin live-flow {
+  background-image: linear-gradient(
+    110deg,
+    rgba(255, 122, 198, 0.1),
+    rgba(196, 155, 255, 0.22),
+    rgba(122, 208, 255, 0.16),
+    rgba(196, 155, 255, 0.22),
+    rgba(255, 122, 198, 0.1)
+  );
+  background-size: 300% 100%;
+  animation: vot-live-card-flow 3s linear infinite;
+}
+
+@keyframes vot-live-card-flow {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 300% 0;
+  }
+}
+
 .vot-voice-icon {
   display: block;
   overflow: visible;
@@ -153,6 +176,7 @@
     &:hover,
     &:focus-visible {
       background-color: rgba(var(--vot-voice-live-rgb), 0.24);
+      @include live-flow;
     }
 
     .vot-voice-popover__item-icon {
@@ -164,6 +188,7 @@
     &:hover,
     &:focus-visible {
       background-color: rgba(var(--vot-voice-live-rgb), 0.18);
+      @include live-flow;
     }
 
     .vot-voice-popover__item-icon {
@@ -212,6 +237,10 @@
   .vot-voice-icon .vot-eq-bar {
     animation: none !important;
     transform: scaleY(1) !important;
+  }
+
+  .vot-voice-popover__item {
+    animation: none !important;
   }
 
   .vot-voice-popover,
