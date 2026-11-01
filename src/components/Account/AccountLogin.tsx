@@ -1,6 +1,5 @@
 import { type JSX, mergeProps } from "solid-js";
 
-import { t } from "../../localization/localizationProvider";
 import { votStorage } from "../../utils/storage";
 
 export type AccountLoginProps = {
@@ -43,7 +42,7 @@ export function AccountLogin(props: AccountLoginProps): JSX.Element {
       >
         <vot-block class="vot-account-login__btn-icon" />
         <vot-block class="vot-account-login__btn-text">
-          {t("VOTSignInWithYandex")}
+          Продолжить через Яндекс
         </vot-block>
       </vot-block>
     </vot-block>

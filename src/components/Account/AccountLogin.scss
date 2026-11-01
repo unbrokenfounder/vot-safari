@@ -12,18 +12,24 @@
     line-height: 20px;
   }
 
+  // Yandex Business ID button (brand guidelines): always white, 40px high,
+  // regardless of the theme.
   &__btn {
     flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
-    gap: var(--vot-space-2);
+    justify-content: center;
+    gap: 8px;
     height: 40px;
-    padding: 0 var(--vot-space-4) 0 var(--vot-space-2);
-    border-radius: var(--vot-radius-pill);
-    background: rgb(var(--vot-onsurface-rgb, 250, 250, 250));
-    color: rgb(var(--vot-surface-rgb, 13, 13, 13));
-    font-size: 14px;
-    font-weight: 500 !important;
+    padding: 0 20px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    background: #fff;
+    color: #2b2b2b;
+    font-size: 15px;
+    font-weight: 400 !important;
+    line-height: 20px;
+    white-space: nowrap;
     cursor: pointer;
     user-select: none;
     transition:
@@ -31,7 +37,7 @@
       background var(--vot-duration-fast) var(--vot-easing-standard);
 
     &:hover {
-      background: rgba(var(--vot-onsurface-rgb, 250, 250, 250), 0.88);
+      background: #f4f4f4;
     }
 
     &:active {
@@ -40,10 +46,9 @@
 
     &-icon {
       flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background-image: url("data:image/svg+xml,%3Csvg width='44' height='44' viewBox='0 0 44 44' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='44' height='44' fill='%23FC3F1D'/%3E%3Cpath d='M22.9515 24.2897C24.2907 27.223 24.737 28.2433 24.737 31.7665V36.4375H19.9544V28.5621L10.9313 8.9375H15.9211L22.9515 24.2897ZM28.8501 8.9375L22.9994 22.2332H27.8617L33.7284 8.9375H28.8501Z' fill='white'/%3E%3C/svg%3E%0A");
+      width: 22px;
+      height: 22px;
+      background-image: url("data:image/svg+xml,%3Csvg width=%2222%22 height=%2222%22 viewBox=%220 0 22 22%22 fill=%22none%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg clip-path=%22url(%23clip0_57_76)%22%3E%3Cpath d=%22M0 11C0 4.9247 4.9236 0 11 0C17.0742 0 22 4.9247 22 11C22 17.0753 17.0742 22 11 22C4.9236 22 0 17.0753 0 11Z%22 fill=%22%23FC3F1D%22/%3E%3Cpath d=%22M12.4081 6.2326H11.3917C9.52832 6.2326 8.54822 7.1764 8.54822 8.5679C8.54822 10.1409 9.22586 10.8779 10.6173 11.8228L11.7669 12.5972L8.46352 17.5329H5.99512L8.95966 13.1175C7.25462 11.8954 6.29762 10.7085 6.29762 8.701C6.29762 6.1842 8.05212 4.466 11.3797 4.466H14.6829V17.5208H12.4081V6.2326Z%22 fill=%22white%22/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id=%22clip0_57_76%22%3E%3Crect width=%2222%22 height=%2222%22 fill=%22white%22/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E");
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
