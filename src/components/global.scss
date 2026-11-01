@@ -68,12 +68,7 @@
   --vot-glass-border-color: rgba(255, 255, 255, 0.16);
   --vot-glass-highlight: inset 0 1px 0 var(--vot-glass-edge-light),
   inset 0 -1px 0 var(--vot-glass-edge-dark);
-  --vot-glass-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 4px 14px rgba(
-    0,
-    0,
-    0,
-    0.14
-  );
+  --vot-glass-shadow: 0 0 0 0 transparent;
   --vot-glass-fill-hover: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.1);
   --vot-glass-fill: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.08);
 
@@ -108,12 +103,7 @@
     --vot-glass-edge-light: rgba(255, 255, 255, 0.7);
     --vot-glass-edge-dark: rgba(0, 0, 0, 0.06);
     --vot-glass-border-color: rgba(0, 0, 0, 0.1);
-    --vot-glass-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 14px rgba(
-      0,
-      0,
-      0,
-      0.1
-    );
+    --vot-glass-shadow: 0 0 0 0 transparent;
   }
 }
 
