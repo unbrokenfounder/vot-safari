@@ -88,9 +88,25 @@
       padding: 0 0 20px 0;
     }
 
+    // Round, softly filled close button, inset from the corner and vertically
+    // aligned with the title (title: 24px padding + ~29px line).
     & > .vot-icon-button {
-      margin-inline-end: var(--vot-space-1) !important;
-      margin-top: var(--vot-space-1) !important;
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      margin-inline-end: var(--vot-space-6) !important;
+      margin-top: var(--vot-space-5) !important;
+      background-color: rgba(var(--vot-helper-onsurface-rgb), 0.08);
+
+      &:hover:not([disabled="true"]) {
+        background-color: rgba(var(--vot-helper-onsurface-rgb), 0.14);
+      }
+
+      svg {
+        width: 18px;
+        height: 36px;
+      }
     }
   }
 
