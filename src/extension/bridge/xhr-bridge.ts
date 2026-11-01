@@ -1,4 +1,3 @@
-import { browser } from "wxt/browser";
 import { createTerminalXhrError } from "#extension/shared/xhr.ts";
 import debug from "../../utils/debug";
 import { toErrorMessage } from "../../utils/errors";
@@ -10,6 +9,7 @@ import {
 } from "../shared/bodySerialization";
 import type { AnyObject } from "../shared/constants";
 import { PORT_NAME, TYPE_XHR_ACK, TYPE_XHR_EVENT } from "../shared/constants";
+import { browser } from "wxt/browser";
 import { postToPage } from "../shared/transport";
 import {
   ExtensionContextInvalidatedError,

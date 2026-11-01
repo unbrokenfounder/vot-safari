@@ -73,10 +73,7 @@ async function resumePlayerAudioContextIfNeeded(
   return result;
 }
 
-const translationSourceOwners = new WeakMap<
-  object,
-  ActionContext | undefined
->();
+const translationSourceOwners = new WeakMap<object, ActionContext | undefined>();
 
 async function rollbackStaleAppliedSourceIfStillCurrent(
   handler: VideoHandler,

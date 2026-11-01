@@ -77,11 +77,8 @@ export async function downloadTranslation(
   const chunks = await readResponseChunks(res, onProgress);
   onProgress(100);
 
-  const blob = new Blob(
-    [createTitleId3Tag(filename), ...chunks] as BlobPart[],
-    {
-      type: "audio/mpeg",
-    },
-  );
+  const blob = new Blob([createTitleId3Tag(filename), ...chunks] as BlobPart[], {
+    type: "audio/mpeg",
+  });
   return await downloadBlob(blob, `${filename}.mp3`, saveOptions);
 }

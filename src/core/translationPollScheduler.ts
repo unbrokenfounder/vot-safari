@@ -60,16 +60,14 @@ export function getTranslationPollDelayMs({
 
   const stale = Math.max(
     0,
-    staleCount ?? (toEtaSeconds(previousRemainingTimeSeconds) === eta ? 1 : 0),
+    staleCount ??
+      (toEtaSeconds(previousRemainingTimeSeconds) === eta ? 1 : 0),
   );
   const etaDelayMs = eta * 1000 * ETA_POLL_FRACTION;
   const staleCapMs = Math.max(MIN_POLL_DELAY_MS, staleMaxDelayMs);
   const backoffMs =
     stale > 0
-      ? Math.min(
-          staleCapMs,
-          MIN_POLL_DELAY_MS * STALE_ETA_BACKOFF_FACTOR ** stale,
-        )
+      ? Math.min(staleCapMs, MIN_POLL_DELAY_MS * STALE_ETA_BACKOFF_FACTOR ** stale)
       : 0;
 
   // Never poll more often than the plain ETA schedule would.

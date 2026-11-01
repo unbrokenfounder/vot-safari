@@ -1,4 +1,3 @@
-import { browser } from "wxt/browser";
 import { toErrorMessage } from "#utils/errors.ts";
 import logger from "#utils/logger.ts";
 import debug from "../../utils/debug";
@@ -12,6 +11,7 @@ import {
   TYPE_XHR_ABORT,
   TYPE_XHR_START,
 } from "../shared/constants";
+import { browser } from "wxt/browser";
 import { isSameWindowBridgeEvent, postToPage } from "../shared/transport";
 import {
   assertExtensionContext,

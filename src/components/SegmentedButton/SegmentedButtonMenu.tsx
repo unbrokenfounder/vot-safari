@@ -1,8 +1,9 @@
+import { createSignal, type JSX, mergeProps, Show } from "solid-js";
+
 import { VideoService } from "@vot.js/ext/types/service";
 import { getVideoID } from "@vot.js/ext/utils/videoData";
 import { availableLangs, availableTTS } from "@vot.js/shared/consts";
 import type { RequestLang, ResponseLang } from "@vot.js/shared/types/data";
-import { createSignal, type JSX, mergeProps, Show } from "solid-js";
 import { effect } from "solid-js/web";
 import { clamp } from "#utils/number.ts";
 import { AudioDownloader } from "../../audioDownloader";

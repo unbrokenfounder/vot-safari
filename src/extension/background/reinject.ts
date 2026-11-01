@@ -1,4 +1,4 @@
-import { type Browser, browser } from "wxt/browser";
+import { browser, type Browser } from "wxt/browser";
 import type { ScriptPublicPath } from "wxt/utils/inject-script";
 import debug from "../../utils/debug";
 import { LIFECYCLE_PORT_NAME } from "../shared/constants";
