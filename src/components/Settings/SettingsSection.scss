@@ -1,6 +1,7 @@
 .vot-settings-section {
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   overflow: hidden;
   border: 1px solid var(--vot-border-color);
   border-radius: var(--vot-radius-m);
