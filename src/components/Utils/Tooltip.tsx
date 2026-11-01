@@ -673,6 +673,7 @@ export function Tooltip(props: TooltipProps): JSX.Element {
         data-trigger={trigger()}
         data-mode={mode()}
         data-position={resolvedPosition()}
+        data-state={isVisible() && isPositioned() ? "open" : "closed"}
         style={{
           top: "0",
           left: "0",

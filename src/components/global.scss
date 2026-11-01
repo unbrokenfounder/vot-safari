@@ -90,6 +90,13 @@
   --vot-toggle-track: 150ms;
   --vot-toggle-ease: cubic-bezier(0.34, 1.35, 0.64, 1);
 
+  --vot-tt-in-dur: 150ms;
+  --vot-tt-out-dur: 50ms;
+  --vot-tt-scale: 0.98;
+  --vot-tt-delay: 80ms;
+  --vot-tt-in-ease: ease-out;
+  --vot-tt-out-ease: ease-out;
+
   --vot-duration-fast: 120ms;
   --vot-duration-medium: 200ms;
   --vot-duration-slow: 320ms;
