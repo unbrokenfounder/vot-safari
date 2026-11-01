@@ -47,11 +47,11 @@
    * of the --vot-*-rgb tokens keep working. Opaque fallbacks are used when
    * backdrop-filter is missing or transparency is reduced.
    */
-  --vot-glass-alpha: 0.72;
-  --vot-glass-alpha-strong: 0.84;
-  --vot-glass-blur: 24px;
-  --vot-glass-saturate: 1.8;
-  --vot-glass-brightness: 0.75;
+  --vot-glass-alpha: 0.5;
+  --vot-glass-alpha-strong: 0.64;
+  --vot-glass-blur: 20px;
+  --vot-glass-saturate: 1.6;
+  --vot-glass-brightness: 0.85;
   --vot-glass-filter: blur(var(--vot-glass-blur))
   saturate(var(--vot-glass-saturate)) brightness(var(--vot-glass-brightness));
   --vot-glass-tint: rgba(
@@ -68,11 +68,11 @@
   --vot-glass-border-color: rgba(255, 255, 255, 0.16);
   --vot-glass-highlight: inset 0 1px 0 var(--vot-glass-edge-light),
   inset 0 -1px 0 var(--vot-glass-edge-dark);
-  --vot-glass-shadow: 0 2px 6px rgba(0, 0, 0, 0.18), 0 16px 40px rgba(
+  --vot-glass-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 4px 14px rgba(
     0,
     0,
     0,
-    0.28
+    0.14
   );
   --vot-glass-fill-hover: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.1);
   --vot-glass-fill: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.08);
@@ -108,11 +108,11 @@
     --vot-glass-edge-light: rgba(255, 255, 255, 0.7);
     --vot-glass-edge-dark: rgba(0, 0, 0, 0.06);
     --vot-glass-border-color: rgba(0, 0, 0, 0.1);
-    --vot-glass-shadow: 0 2px 6px rgba(0, 0, 0, 0.08), 0 16px 40px rgba(
+    --vot-glass-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 14px rgba(
       0,
       0,
       0,
-      0.16
+      0.1
     );
   }
 }
