@@ -27,16 +27,61 @@
   --vot-space-6: 24px;
 
   --vot-radius-xs: 6px;
-  --vot-radius-s: 10px;
-  --vot-radius-m: 14px;
-  --vot-radius-l: 18px;
+  --vot-radius-s: 12px;
+  --vot-radius-m: 18px;
+  --vot-radius-l: 26px;
 
   --vot-border-color: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.14);
   --vot-border-color-hover: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.22);
 
   --vot-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 0, 0, 0.14);
-  --vot-shadow-2:
-    0 2px 4px rgba(0, 0, 0, 0.22), 0 12px 32px rgba(0, 0, 0, 0.22);
+  --vot-shadow-2: 0 2px 4px rgba(0, 0, 0, 0.22), 0 12px 32px rgba(
+    0,
+    0,
+    0,
+    0.22
+  );
+
+  /*
+   * Liquid Glass layer. Tints derive from --vot-surface-rgb, so user overrides
+   * of the --vot-*-rgb tokens keep working. Opaque fallbacks are used when
+   * backdrop-filter is missing or transparency is reduced.
+   */
+  --vot-glass-alpha: 0.72;
+  --vot-glass-alpha-strong: 0.84;
+  --vot-glass-blur: 24px;
+  --vot-glass-saturate: 1.8;
+  --vot-glass-brightness: 0.75;
+  --vot-glass-filter: blur(var(--vot-glass-blur))
+  saturate(var(--vot-glass-saturate)) brightness(var(--vot-glass-brightness));
+  --vot-glass-tint: rgba(
+    var(--vot-surface-rgb, 32, 33, 36),
+    var(--vot-glass-alpha)
+  );
+  --vot-glass-tint-strong: rgba(
+    var(--vot-surface-rgb, 32, 33, 36),
+    var(--vot-glass-alpha-strong)
+  );
+  --vot-glass-opaque: rgb(var(--vot-surface-rgb, 32, 33, 36));
+  --vot-glass-edge-light: rgba(255, 255, 255, 0.22);
+  --vot-glass-edge-dark: rgba(0, 0, 0, 0.18);
+  --vot-glass-border-color: rgba(255, 255, 255, 0.16);
+  --vot-glass-highlight: inset 0 1px 0 var(--vot-glass-edge-light),
+  inset 0 -1px 0 var(--vot-glass-edge-dark);
+  --vot-glass-shadow: 0 2px 6px rgba(0, 0, 0, 0.18), 0 16px 40px rgba(
+    0,
+    0,
+    0,
+    0.28
+  );
+  --vot-glass-fill-hover: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.1);
+  --vot-glass-fill: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.08);
+
+  --vot-radius-xl: 28px;
+  --vot-radius-pill: 999px;
+
+  // Overshoot approximates a spring without linear() (Chrome 106 lacks it).
+  --vot-easing-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
 
   --vot-duration-fast: 120ms;
   --vot-duration-medium: 200ms;
@@ -46,7 +91,30 @@
   --vot-focus-ring-color: rgba(var(--vot-primary-rgb, 139, 180, 245), 0.9);
   --vot-focus-ring: 0 0 0 2px var(--vot-focus-ring-color);
   --vot-focus-ring-offset: 0 0 0 4px
-    rgba(var(--vot-surface-rgb, 32, 33, 36), 0.9);
+  rgba(var(--vot-surface-rgb, 32, 33, 36), 0.9);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --vot-primary-rgb: 0, 111, 230;
+    --vot-onprimary-rgb: 255, 255, 255;
+    --vot-surface-rgb: 245, 245, 247;
+    --vot-secondary-rgb: 229, 229, 234;
+    --vot-onsurface-rgb: 28, 28, 30;
+    --vot-danger-rgb: 200, 30, 30;
+    --vot-error-rgb: 190, 40, 40;
+
+    --vot-glass-brightness: 1.05;
+    --vot-glass-edge-light: rgba(255, 255, 255, 0.7);
+    --vot-glass-edge-dark: rgba(0, 0, 0, 0.06);
+    --vot-glass-border-color: rgba(0, 0, 0, 0.1);
+    --vot-glass-shadow: 0 2px 6px rgba(0, 0, 0, 0.08), 0 16px 40px rgba(
+      0,
+      0,
+      0,
+      0.16
+    );
+  }
 }
 
 // ------------------------------

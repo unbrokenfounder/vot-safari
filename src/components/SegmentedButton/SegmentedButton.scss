@@ -17,12 +17,16 @@
   height: 36px;
   max-width: 100%;
 
-  background: rgb(var(--vot-surface-rgb, 255, 255, 255));
   color: var(--vot-helper-theme);
   fill: var(--vot-helper-theme);
-  border: 1px solid var(--vot-border-color) !important;
-  border-radius: var(--vot-radius-s) !important;
-  box-shadow: var(--vot-shadow-1) !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--vot-radius-pill) !important;
+  @include shared.vot-glass;
+  transition: transform var(--vot-duration-medium) var(--vot-easing-spring);
+
+  &:active {
+    transform: scale(0.98);
+  }
 
   &[data-direction="column"] {
     flex-direction: column;
@@ -135,7 +139,7 @@
     fill: inherit;
     opacity: 0.95;
     cursor: default;
-    border-radius: var(--vot-radius-s) !important;
+    border-radius: var(--vot-radius-pill) !important;
     outline: none;
     -webkit-tap-highlight-color: transparent;
 

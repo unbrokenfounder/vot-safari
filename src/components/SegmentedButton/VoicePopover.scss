@@ -48,13 +48,11 @@
   z-index: 2147483647;
   display: block;
 
-  background: var(--vot-helper-surface);
-
-  border: 1px solid var(--vot-border-color) !important;
+  border: 1px solid transparent !important;
 
   border-radius: var(--vot-radius-m) !important;
 
-  box-shadow: var(--vot-shadow-2) !important;
+  @include shared.vot-glass(var(--vot-glass-tint-strong));
 
   overflow: hidden;
 

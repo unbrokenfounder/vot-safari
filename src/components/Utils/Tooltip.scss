@@ -1,3 +1,5 @@
+@use "../mixins" as shared;
+
 .vot-tooltip {
   --vot-helper-theme-rgb: var(--vot-onsurface-rgb, 0, 0, 0);
   --vot-helper-theme: rgba(var(--vot-helper-theme-rgb), 0.87);
@@ -6,10 +8,11 @@
   user-select: none;
   display: flex;
   align-items: center;
-  background: rgb(var(--vot-surface-rgb, 255, 255, 255));
   color: var(--vot-helper-theme);
   fill: var(--vot-helper-theme);
-  border-radius: 4px !important;
+  border: 1px solid transparent;
+  border-radius: var(--vot-radius-s) !important;
+  @include shared.vot-glass;
   font-family: var(--vot-font-family);
   font-size: 14px;
   line-height: 1.5;
@@ -18,13 +21,12 @@
   position: absolute;
   z-index: 2147483647;
   inset: 0;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   width: max-content;
   max-width: calc(100vw - 10px);
   overflow-wrap: anywhere;
   white-space: normal;
   height: max-content;
-  padding: 4px 8px !important;
+  padding: 6px 12px !important;
   opacity: 0;
 
   &[data-trigger="hover"]:not([data-mode="follow"]) {
@@ -60,6 +62,9 @@
     overflow: visible;
     background: transparent !important;
     box-shadow: none !important;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-color: transparent !important;
     border-radius: 18px !important;
 
     .vot-subtitles-info {

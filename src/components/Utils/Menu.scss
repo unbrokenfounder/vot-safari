@@ -6,11 +6,10 @@
   --vot-helper-onsurface-rgb: var(--vot-onsurface-rgb, 0, 0, 0);
   --vot-helper-onsurface: rgba(var(--vot-helper-onsurface-rgb), 0.87);
 
-  background: var(--vot-helper-surface);
   color: var(--vot-helper-onsurface);
-  border: 1px solid var(--vot-border-color) !important;
+  border: 1px solid transparent !important;
   border-radius: var(--vot-radius-m) !important;
-  box-shadow: var(--vot-shadow-2) !important;
+  @include shared.vot-glass(var(--vot-glass-tint-strong));
   @include shared.vot-font-family;
   font-size: 16px;
   line-height: 1.5;

@@ -41,3 +41,24 @@
     background: var(#{$surface-var}) !important;
   }
 }
+
+// Translucent blurred surface. Never nest one glass surface inside another:
+// Safari drops the inner backdrop-filter and the blur cost multiplies.
+@mixin vot-glass($tint: var(--vot-glass-tint)) {
+  background: var(--vot-glass-opaque);
+  border-color: var(--vot-glass-border-color) !important;
+  box-shadow: var(--vot-glass-highlight), var(--vot-glass-shadow) !important;
+
+  @supports (backdrop-filter: blur(1px)) or
+    (-webkit-backdrop-filter: blur(1px)) {
+    background: $tint;
+    -webkit-backdrop-filter: var(--vot-glass-filter);
+    backdrop-filter: var(--vot-glass-filter);
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    background: var(--vot-glass-opaque);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
