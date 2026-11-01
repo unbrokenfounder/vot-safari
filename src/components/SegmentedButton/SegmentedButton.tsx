@@ -53,6 +53,7 @@ export type SegmentedButtonProps = {
   onVoiceChange?: (voice: VoiceType) => void;
   onSubtitlesClick?: () => void;
   onMenuClick?: () => void;
+  onVoicePopoverOpen?: () => void;
   onPiPClick?: () => void;
   ref?: (element: HTMLElement) => void;
 };
@@ -139,6 +140,9 @@ export function SegmentedButton(props: SegmentedButtonProps): JSX.Element {
   const handleVoicePopoverOpenChange = (isOpen: boolean) => {
     setSuppressVoiceTooltip(true);
     setIsVoicePopoverOpen(isOpen);
+    if (isOpen) {
+      finalProps.onVoicePopoverOpen?.();
+    }
     suppressRestoredVoiceTooltipFocus = !isOpen;
   };
 

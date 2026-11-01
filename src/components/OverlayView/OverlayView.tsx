@@ -183,6 +183,9 @@ export function OverlayView(props: OverlayViewProps): JSX.Element {
   const setMenuHidden = (hidden: boolean) => {
     if (hidden) {
       segmentedButtonMenuControls?.closeFloatingUI();
+    } else {
+      // The settings menu and the voice popover are mutually exclusive.
+      segmentedButtonControls?.closeFloatingUI();
     }
 
     setMenuHiddenState(hidden);
@@ -647,6 +650,7 @@ export function OverlayView(props: OverlayViewProps): JSX.Element {
         onMenuClick={() => {
           setMenuHidden(!menuHidden());
         }}
+        onVoicePopoverOpen={() => setMenuHidden(true)}
         onTranslateClick={() => {
           setMenuHidden(true);
           finalProps.onTranslateClick?.();
