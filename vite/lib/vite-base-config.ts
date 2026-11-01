@@ -1,18 +1,5 @@
-import {
-  normalizePath,
-  type Plugin,
-  type UserConfig,
-  build as viteBuild,
-} from "vite";
-import solidPlugin from "vite-plugin-solid";
-import {
-  ROOT_DIR,
-  SOURCE_DIR,
-  sharedBuildOptions,
-  sharedCssOptions,
-  sharedResolveAlias,
-  viteCacheDir,
-} from "./paths.ts";
+import { normalizePath, type Plugin, build as viteBuild } from "vite";
+import { ROOT_DIR, SOURCE_DIR, sharedBuildOptions } from "./paths.ts";
 
 const youtubePlayerSolverPath = normalizePath(
   `${SOURCE_DIR}/audioDownloader/strategies/ytPlayerSolver.js`,
@@ -50,10 +37,6 @@ const minifiedYouTubePlayerSolverPlugin: Plugin = {
   },
 };
 
-export interface BaseViteConfigOptions {
-  cacheName: string;
-}
-
 export const solidPluginOptions = {
   solid: {
     generate: "universal",
@@ -63,22 +46,3 @@ export const solidPluginOptions = {
 
 /** Plugins shared by every build that are not provided by a WXT module. */
 export const sharedVitePlugins: Plugin[] = [minifiedYouTubePlayerSolverPlugin];
-
-export function createBaseViteConfig({
-  cacheName,
-}: BaseViteConfigOptions): UserConfig {
-  return {
-    root: ROOT_DIR,
-    envDir: ROOT_DIR,
-    publicDir: false,
-    cacheDir: viteCacheDir(cacheName),
-    appType: "custom",
-    plugins: [solidPlugin(solidPluginOptions), ...sharedVitePlugins],
-    resolve: {
-      alias: sharedResolveAlias,
-      dedupe: ["solid-js", "solid-js/web", "solid-js/store"],
-    },
-    css: sharedCssOptions,
-    build: sharedBuildOptions,
-  };
-}

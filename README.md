@@ -1,285 +1,44 @@
-<!-- loaders links (website > github > store) -->
+# VOT Safari
 
-[tampermonkey-link]: https://www.tampermonkey.net/index.php
-[violentmonkey-opera]: https://chrome.google.com/webstore/detail/violent-monkey/jinjaccalgkegednnccohejagnlnfdag
-[violentmonkey-link]: https://violentmonkey.github.io
+Озвучка и субтитры к видео на других языках прямо в Safari (macOS). Форк
+[voice-over-translation](https://github.com/ilyhalight/voice-over-translation)
+с новым интерфейсом в стиле Liquid Glass. Сборка рассчитана на Safari и браузеры
+на Chromium.
 
-<!-- FAQs / Wiki -->
-
-[devmode-enable]: https://www.tampermonkey.net/faq.php#Q209
-[opera-search-results-access]: https://help.opera.com/en/extensions/content-scripts/
-[vot-faq]: https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-FAQ
-[vot-supported-sites]: https://github.com/ilyhalight/voice-over-translation/wiki/%5BRU%5D-Supported-sites
-[vot-wiki]: https://github.com/ilyhalight/voice-over-translation/wiki
-
-<!-- Our servers -->
-
-[vot-balancer]: https://vot-worker.toil.cc/health
-[vot-worker]: https://github.com/FOSWLY/vot-worker
-[media-proxy]: https://github.com/FOSWLY/media-proxy
-[vot-backend]: https://github.com/FOSWLY/vot-backend
-[vot-status]: https://votstatus.toil.cc
-[vot-stats]: https://votstats.toil.cc
-
-<!-- Install / Build -->
-
-[vot-dist]: https://github.com/ilyhalight/voice-over-translation/releases/latest/download/vot.user.js
-[vot-releases]: https://github.com/ilyhalight/voice-over-translation/releases
-[nodejs-link]: https://nodejs.org
-[bun-link]: https://bun.sh/
-
-<!-- Badges -->
-
-[badge-en]: https://img.shields.io/badge/lang-English%20%F0%9F%87%AC%F0%9F%87%A7-white
-[badge-ru]: https://img.shields.io/badge/%D1%8F%D0%B7%D1%8B%D0%BA-%D0%A0%D1%83%D1%81%D1%81%D0%BA%D0%B8%D0%B9%20%F0%9F%87%B7%F0%9F%87%BA-white
-
-<!-- Stores -->
-
-[vot-chrome-store]: https://chromewebstore.google.com/detail/dnioaagdjgpcokckfpokpndoblenmfcg
-[vot-firefox-store]: https://addons.mozilla.org/ru/firefox/addon/voice-over-translation/
-
-<!-- Other -->
-
-[vot-readme-ru]: README.md
-[vot-readme-en]: README-EN.md
-[vot-langs]: LANG_SUPPORT.md
-[vot-issues]: https://github.com/ilyhalight/voice-over-translation/issues
-[votjs-link]: https://github.com/FOSWLY/vot.js
-[vot-cli-link]: https://github.com/FOSWLY/vot-cli
-[yabrowser-link]: https://yandex.ru/project/browser/streams/technology
-[yatranslate-link]: https://translate.yandex.ru/
-[contributors-link]: https://github.com/ilyhalight/voice-over-translation/graphs/contributors
-
-<!-- Content -->
-
-<div align="center">
-  <h1>voice-over-translation (<code>vot</code>)</h1>
-  <p>Смотрите видео на другом языке с закадровым переводом и субтитрами в <a href="./BROWSERS-EXTS-TEST.md">любом браузере</a></p>
-
-[![en][badge-en]][vot-readme-en]
-[![ru][badge-ru]][vot-readme-ru]
-
-[Установка](#установка-расширения) ·
-[Разработка](#как-собрать-расширение) ·
-[FAQ][vot-faq] ·
-[Поддерживаемые сайты][vot-supported-sites]
-
-<a href="https://chromewebstore.google.com/detail/dnioaagdjgpcokckfpokpndoblenmfcg"><img src="./img/badges/chrome-webstore.png" alt="Установить из Chrome Web Store"></a>
-<a href="https://addons.mozilla.org/ru/firefox/addon/voice-over-translation/"><img src="./img/badges/firefox-addons.png" alt="Установить из Firefox Add-ons"></a>
-<a href="https://github.com/ilyhalight/voice-over-translation/releases/latest"><img src="./img/badges/github-releases.png" alt="Установить из Github Releases"></a>
-
-  <img src="./img/promo/vot-promo.gif" alt="vot promotion banner"/>
-</div>
-
----
-
-> Все права на оригинальное программное обеспечение принадлежат их правообладателям. Расширение не связано с оригинальными правообладателями.
-
-Большое спасибо разработчикам **[Yandex.Translate][yatranslate-link]**, **[Yandex.Browser][yabrowser-link]** и всем, [кто помогает делать расширение][contributors-link] еще лучше.
-
-## Установка расширения из GitHub Releases
-
-> [!CAUTION]
-> Перед созданием Issues настоятельно рекомендуем ознакомиться с разделом [FAQ][vot-faq] и уже существующими [Issues][vot-issues].
-
-### Нативно под Chrome (Chromium)
-
-1. Откройте [Releases][vot-releases] и скачайте файл `vot-extension-chrome.zip`
-2. Откройте страницу расширений:
-   - Chrome: `chrome://extensions`
-   - Edge: `edge://extensions`
-   - Brave: `brave://extensions`
-   - Opera: `opera://extensions`
-3. Включите **«Режим разработчика»**
-4. Перетащите скачанный `.zip`-файл на страницу расширений
-
-### Нативно под Firefox
-
-1. Откройте [Releases][vot-releases]
-2. Нажмите на `vot-extension-firefox.xpi`
-3. Подтвердите установку в Firefox
-
-### Через загрузчик юзерскриптов (Tampermonkey)
-
-> [!WARNING]
-> **Важно для пользователей Tampermonkey 5.2+ (MV3):**
-> В браузерах на движке **Chromium** (Chrome, Edge, Brave, Vivaldi и др.) необходимо:
->
-> 1. Открыть страницу расширений (`chrome://extensions`) и включить **«Режим разработчика»** (подробности в [документации Tampermonkey][devmode-enable]).
-> 2. Если движок **Chromium версии 138+**, в «Сведениях» расширения включить **«Разрешить пользовательские скрипты»**.
-
-> [!WARNING]
-> **Пользователям Opera:**
->
-> 1. Используйте **[Violentmonkey][violentmonkey-opera]** вместо Tampermonkey.
-> 2. В настройках расширения обязательно включите **«Разрешить доступ к результатам на странице поиска»** (гайд от Opera: [как найти эту настройку][opera-search-results-access]), иначе скрипт не будет работать.
-
-1. Установите загрузчик юзерскриптов: **[Tampermonkey][tampermonkey-link]** (или [Violentmonkey][violentmonkey-opera] для Opera)
-2. Нажмите -> **[«Установить скрипт»][vot-dist]**
-
-## Возможности
-
-- Перевод видео на русский, английский или казахский с [поддерживаемых языков][vot-langs]
-- Автоматический перевод видео при открытии
-- Автоматическое включение субтитров при открытии
-- Умное расположение субтитров: адаптация длины строк и размера текста под размер плеера
-- Отображение субтитров, сгенерированных нейросетью
-- Отображение субтитров с сайта (например, автопереведенные субтитры YouTube)
-- Сохранение субтитров в форматах `.srt`, `.vtt`, `.ass`, `.json`
-- Сохранение аудиодорожки перевода в формате `.mp3`
-- Отдельные ползунки громкости для оригинального и переведённого звука
-- Адаптивная громкость: приглушение оригинала, когда звучит перевод
-- Синхронизация громкости перевода с громкостью видео
-- Ограничение перевода с выбранных языков (можно выбрать в меню)
-- Горячие клавиши для перевода и управления субтитрами (включая комбинации клавиш)
-- Простая настройка внешнего вида субтитров
-- Отображение перевода отдельных слов в субтитрах
-
-### Полезные ссылки
-
-1. Проверенная совместимость (EN): **[Ссылка](./BROWSERS-EXTS-TEST.md)**
-2. Библиотека для JS (vot.js): **[Ссылка][votjs-link]**
-3. Версия для терминала (vot-cli): **[Ссылка][vot-cli-link]**
-
-## Ограничения и рекомендации
-
-1. Рекомендуется разрешить автовоспроизведение «аудио и видео», чтобы избежать ошибок при работе расширения
-2. Расширение не может переводить видео длиной более 4 часов (ограничение API переводчика)
-3. Для стабильной работы загрузки аудио используйте актуальные и поддерживаемые загрузчики пользовательских скриптов (например, [Tampermonkey][tampermonkey-link] или [Violentmonkey][violentmonkey-link])
-
-## Список поддерживаемых сайтов
-
-Полный список поддерживаемых веб-сайтов и ограничения, связанные с их поддержкой, доступны в **[вики][vot-supported-sites]**.
-
-### Наши домены:
-
-Эти домены можно менять в настройках расширения без пересборки:
-
-#### Proxy-сервер
-
-Нужен для проксирования запросов, если прямой доступ к серверам Яндекса недоступен.
-
-- [vot-new.toil-dump.workers.dev][vot-worker] (⚠️ не работает в РФ)
-
-#### Media Proxy-сервер
-
-Нужен для проксирования `.m3u8`-файлов и корректной обработки непрямых ссылок на `.mp4` и `.webm`.
-
-- [media-proxy.toil.cc][media-proxy]
-
-## Как собрать расширение?
-
-1. Установите [Node.js 22+][nodejs-link] / [Bun.sh][bun-link]
-2. Установите зависимости:
-
-NPM:
+## Сборка
 
 ```bash
 npm install
+npm run build          # результат: .output/chrome-mv3
 ```
 
-Bun:
+## Safari
 
 ```bash
-bun install
+xcrun safari-web-extension-converter .output/chrome-mv3 \
+  --project-location ~/Desktop/vot-safari --app-name "VOT Safari" --macos-only
 ```
 
-3. Сборка расширения:
+Откройте проект в Xcode, выберите команду для подписи (Personal Team
+подойдёт), запустите приложение (⌘R) и включите расширение в
+Safari → Settings → Extensions. Для неподписанной сборки в меню Develop включите
+Allow Unsigned Extensions.
 
-### Автоматическая сборка
+## Разработка
 
-Автоматическую сборку можно выполнить только с помощью [Bun.sh][bun-link]:
+| Команда | Что делает |
+| --- | --- |
+| `npm run dev` | сборка с отладкой и автоперезагрузкой |
+| `npm run check` | проверка типов |
+| `npm run lint` | линтер (Biome) |
+| `npm run format` | форматирование |
 
-```bash
-bun run autobuild
-```
+Правила для компонентов, локализации и коммитов описаны в `AGENTS.md`.
 
-После завершения в папке `.output` (единая папка вывода WXT) появятся все артефакты сборки, подготовленные для публикации в магазинах расширений Chrome и Firefox, включая архив исходников (`vot-extension-<version>-sources.zip`).
+## Авторы и лицензия
 
-В папке `dist-ext` будет находится non-store сборка для распространения в виде `.zip`-архива (для Chrome) и `.xpi`-архива (для Firefox).
+Оригинальный проект: Toil, SashaXser, MrSoczekXD, mynovelhost, sodapng и
+участники [voice-over-translation](https://github.com/ilyhalight/voice-over-translation).
+Safari-версия и редизайн: Lurevelle Digital.
 
-В папке `dist` будет находится сборка в виде юзерскрипта для установки через [Tampermonkey][tampermonkey-link] или другие загрузчики юзерскриптов.
-
-### Ручная сборка
-
-Userscript (обычная сборка):
-
-```bash
-npm run build:gm:default
-```
-
-Userscript (минифицированная сборка):
-
-```bash
-npm run build:gm:min
-```
-
-Userscript (обе версии):
-
-```bash
-npm run build:gm
-```
-
-Нативные расширения Chrome/Firefox :
-
-```bash
-bun build:chrome     # Chrome
-bun build:firefox    # Firefox
-bun build:ext        # prod-сборка Chrome + Firefox → .output/ и dist-ext/
-bun build:ext:debug  # без минификации, с inline sourcemap
-bun zip:ext          # упаковка в .zip
-```
-
-Разработка:
-
-```bash
-bun dev          # расширение, Chrome : dev-режим, браузер откроется на YouTube
-bun dev:firefox  # расширение, Firefox (wxt -b firefox)
-bun dev:gm       # userscript (vite build --watch)
-```
-
-Страницы расширения и Solid-компоненты обновляются через Vite HMR, а content scripts WXT пересобирает и внедряет заново автоматически — перезагружать расширение вручную не нужно.
-
-Dev-сборка userscript с sourcemap:
-
-```bash
-npm run build:dev
-```
-
-Артефакты userscript попадают в `dist/`, распакованные сборки расширений  — в `.output/chrome-mv3` и `.output/firefox-mv3`, упакованные `.zip`/`.xpi` — в `dist-ext/`.
-
-## Кастомизация внешнего вида:
-
-Расширение поддерживает кастомизацию внешнего вида с помощью Stylus, Stylish и других похожих расширений.
-
-Пример изменения стилей:
-
-```css
-/* ==UserStyle==
-@name         VOT-styles
-@version      16.09.2023
-@namespace    vot-styles
-@description  LLL
-@author       Toil
-@license      No License
-==/UserStyle== */
-
-:root {
-  --vot-font-family:
-    "Roboto", "Segoe UI", BlinkMacSystemFont, system-ui, -apple-system;
-
-  --vot-primary-rgb: 139, 180, 245;
-  --vot-onprimary-rgb: 32, 33, 36;
-  --vot-surface-rgb: 32, 33, 36;
-  --vot-onsurface-rgb: 227, 227, 227;
-
-  --vot-subtitles-color: rgb(var(--vot-onsurface-rgb, 227, 227, 227));
-  --vot-subtitles-passed-color: rgb(var(--vot-primary-rgb, 33, 150, 243));
-}
-```
-
-## Contributing
-
-Пожалуйста, ознакомьтесь с [гайдом для контрибьюторов](./CONTRIBUTING.md).
-
-> Основано на проекте [sodapng/voice-over-translation](https://github.com/sodapng/voice-over-translation) (license MIT)
+Лицензия MIT, см. `LICENSE`.
