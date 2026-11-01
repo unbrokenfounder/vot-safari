@@ -80,6 +80,9 @@ export function VoicePopover(props: VoicePopoverProps): JSX.Element {
 
   const [popover, setPopover] = createSignal<HTMLElement>();
   const [isOpen, setIsOpen] = createSignal(finalProps.isOpen);
+  // Stays true during the exit animation so the popover can fade out.
+  const [mounted, setMounted] = createSignal(finalProps.isOpen);
+  let runningAnimations: Animation[] = [];
   const [activeVoice, setActiveVoice] = createSignal(finalProps.activeVoice);
 
   let showTimer: ReturnType<typeof setTimeout> | undefined;
@@ -302,6 +305,100 @@ export function VoicePopover(props: VoicePopoverProps): JSX.Element {
     setIsOpen(finalProps.isOpen);
   });
 
+  const cancelAnimations = () => {
+    for (const animation of runningAnimations) animation.cancel();
+    runningAnimations = [];
+  };
+
+  const animateElement = (
+    element: HTMLElement,
+    keyframes: Keyframe[],
+    options: KeyframeAnimationOptions,
+  ): Animation | undefined => {
+    if (typeof element.animate !== "function") return undefined;
+    const animation = element.animate(keyframes, options);
+    runningAnimations.push(animation);
+    return animation;
+  };
+
+  createEffect(() => {
+    const element = popover();
+    const open = isOpen();
+    if (!element) return;
+    const reduced = globalThis.matchMedia?.(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (open) {
+      cancelAnimations();
+      setMounted(true);
+      // Wait for the element to leave display:none before measuring it.
+      queueMicrotask(() => {
+        if (!isOpen()) return;
+        floatingPosition.update();
+        animateElement(
+          element,
+          [
+            { opacity: 0, scale: 0.94, translate: "0 -8px" },
+            { opacity: 1, scale: 1, translate: "0 0" },
+          ],
+          {
+            duration: reduced ? 100 : 300,
+            easing: "cubic-bezier(0.34, 1.35, 0.64, 1)",
+          },
+        );
+        if (!reduced) {
+          const items = element.querySelectorAll<HTMLElement>(
+            ".vot-voice-popover__item",
+          );
+          items.forEach((item, index) => {
+            animateElement(
+              item,
+              [
+                { opacity: 0, translate: "0 6px" },
+                { opacity: 1, translate: "0 0" },
+              ],
+              {
+                duration: 260,
+                delay: 50 + index * 45,
+                easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                fill: "backwards",
+              },
+            );
+          });
+        }
+      });
+      return;
+    }
+
+    if (!mounted()) return;
+    cancelAnimations();
+    const exit = animateElement(
+      element,
+      [
+        { opacity: 1, scale: 1, translate: "0 0" },
+        { opacity: 0, scale: 0.96, translate: "0 -4px" },
+      ],
+      {
+        duration: reduced ? 80 : 150,
+        easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+        fill: "forwards",
+      },
+    );
+    if (!exit) {
+      setMounted(false);
+      return;
+    }
+    exit.finished
+      .then(() => {
+        if (!isOpen()) {
+          cancelAnimations();
+          setMounted(false);
+        }
+      })
+      .catch(() => {});
+  });
+
   createEffect(() => {
     const currentAnchor = anchor();
     const previousControls = currentAnchor.getAttribute("aria-controls");
@@ -392,6 +489,7 @@ export function VoicePopover(props: VoicePopoverProps): JSX.Element {
   onCleanup(() => {
     clearShowTimer();
     clearHideTimer();
+    cancelAnimations();
   });
 
   const voiceItem = (
@@ -444,7 +542,7 @@ export function VoicePopover(props: VoicePopoverProps): JSX.Element {
       role="menu"
       aria-label={t("VOTVoiceSelection")}
       aria-hidden={!isOpen()}
-      hidden={!isOpen()}
+      hidden={!mounted()}
       inert={!isOpen()}
       onPointerEnter={(event) => {
         if (event.pointerType !== "touch") {
