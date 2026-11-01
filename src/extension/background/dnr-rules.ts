@@ -66,6 +66,43 @@ function signatureFromDnrRequestHeaders(
   return JSON.stringify(entries);
 }
 
+// Safari rejects the whole rule when it contains a header it does not know
+// (e.g. newer sec-ch-ua-* client hints), so drop such headers and retry.
+const UNRECOGNIZED_HEADER_RE = /header `([^`]+)` is not recognized/i;
+
+async function updateSessionRulesDroppingUnknownHeaders(
+  ruleId: number,
+  rule: Browser.declarativeNetRequest.Rule,
+): Promise<void> {
+  let headers: DnrRequestHeader[] = [
+    ...((rule.action as { requestHeaders?: DnrRequestHeader[] })
+      .requestHeaders ?? []),
+  ];
+
+  for (let attempt = 0; attempt <= headers.length; attempt++) {
+    const candidate = {
+      ...rule,
+      action: { ...rule.action, requestHeaders: headers },
+    } as Browser.declarativeNetRequest.Rule;
+    try {
+      await browser.declarativeNetRequest.updateSessionRules({
+        removeRuleIds: [ruleId],
+        addRules: [candidate],
+      });
+      return;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const rejected = UNRECOGNIZED_HEADER_RE.exec(message)?.[1]?.toLowerCase();
+      if (!rejected) throw error;
+      const next = headers.filter(
+        (h) => normalizeHeaderName(String(h.header)).toLowerCase() !== rejected,
+      );
+      if (next.length === headers.length) throw error;
+      headers = next;
+    }
+  }
+}
+
 async function queueDnrSessionRuleUpdate(
   ruleId: number,
   signature: string,
@@ -77,10 +114,7 @@ async function queueDnrSessionRuleUpdate(
 
   const update = dnrRuleUpdateQueue.then(async () => {
     if (signature !== dnrAppliedSignatures.get(ruleId)) {
-      await browser.declarativeNetRequest.updateSessionRules({
-        removeRuleIds: [ruleId],
-        addRules: [rule],
-      });
+      await updateSessionRulesDroppingUnknownHeaders(ruleId, rule);
       dnrAppliedSignatures.set(ruleId, signature);
     }
     return true;
