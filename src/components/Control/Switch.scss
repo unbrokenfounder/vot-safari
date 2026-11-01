@@ -60,24 +60,14 @@
       outline-offset: 2px;
     }
 
-    &:hover:not(:disabled) ~ .vot-switch-track .vot-switch-handle {
-      box-shadow: 0 0 0 12px rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.08);
-    }
-
     &:active:not(:disabled) ~ .vot-switch-track .vot-switch-handle {
-      box-shadow: 0 0 0 12px rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.12);
-    }
-
-    &:hover:not(:disabled)
-      ~ .vot-switch-track[data-checked="true"]
-      .vot-switch-handle {
-      box-shadow: 0 0 0 8px rgba(var(--vot-primary-rgb, 33, 150, 243), 0.08);
+      width: 25.6px;
     }
 
     &:active:not(:disabled)
       ~ .vot-switch-track[data-checked="true"]
       .vot-switch-handle {
-      box-shadow: 0 0 0 8px rgba(var(--vot-primary-rgb, 33, 150, 243), 0.12);
+      transform: translate(12.4px, -50%);
     }
 
     &:disabled {
@@ -85,18 +75,7 @@
     }
 
     &:disabled ~ .vot-switch-track {
-      background: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.12);
-      border-color: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.12);
-
-      .vot-switch-handle {
-        background: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);
-      }
-    }
-
-    &:disabled ~ .vot-switch-track[data-checked="true"] {
-      .vot-switch-handle {
-        background: rgb(var(--vot-surface-rgb, 32, 33, 36));
-      }
+      opacity: 0.5;
     }
   }
 
@@ -127,48 +106,41 @@
     color: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.38);
   }
 
+  // Same geometry as the dashboard switch: 42x24 track, 20px thumb, 2px inset.
   &-track {
-    align-items: center;
-    background: var(--vot-switch-track);
-    border: 2px solid var(--vot-switch-outline);
+    background: rgba(var(--vot-onsurface-rgb, 250, 250, 250), 0.2);
     border-radius: var(--vot-radius-pill);
     box-sizing: border-box;
-    display: flex;
     flex: 0 0 auto;
-    height: 32px;
+    height: 24px;
     pointer-events: none;
     position: relative;
-    transition-duration: var(--vot-switch-duration);
-    transition-property: background-color, border-color;
-    transition-timing-function: var(--vot-easing-standard);
-    width: 52px;
+    transition: background-color var(--vot-duration-medium)
+      var(--vot-easing-standard);
+    width: 42px;
 
     &[data-checked="true"] {
-      background: var(--vot-switch-primary);
-      border-color: var(--vot-switch-primary);
+      background: rgb(var(--vot-onsurface-rgb, 250, 250, 250));
 
       .vot-switch-handle {
-        background: var(--vot-switch-onprimary);
-        height: 24px;
-        transform: translate(16px, -50%);
-        width: 24px;
+        transform: translate(18px, -50%);
       }
     }
   }
 
   &-handle {
-    background: var(--vot-switch-outline);
-    border-radius: 50%;
-    box-shadow: 0 0 0 0 transparent;
-    height: 16px;
-    inset-inline-start: 6px;
+    background: rgb(var(--vot-surface-rgb, 13, 13, 13));
+    border-radius: var(--vot-radius-pill);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    height: 20px;
+    inset-inline-start: 2px;
     position: absolute;
     top: 50%;
     transform: translate(0, -50%);
-    transition-duration: var(--vot-switch-duration);
-    transition-property: background-color, box-shadow, height, transform, width;
-    transition-timing-function: var(--vot-easing-spring);
-    width: 16px;
+    transition:
+      transform var(--vot-duration-medium) var(--vot-easing-spring),
+      width var(--vot-duration-fast) var(--vot-easing-standard);
+    width: 20px;
   }
 
   @media (prefers-reduced-motion: reduce) {
