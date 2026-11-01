@@ -1,7 +1,6 @@
 import type { JSX } from "solid-js";
 import { t } from "../../localization/localizationProvider";
 import { AccountLogout } from "./AccountLogout";
-import { AccountRefreshButton } from "./AccountRefreshButton";
 
 export type AccountInfoProps = {
   username: string;
@@ -32,9 +31,6 @@ export function AccountInfo(props: AccountInfoProps): JSX.Element {
           <vot-block class="vot-account-info__username">
             {props.username}
           </vot-block>
-        </vot-block>
-        <vot-block class="vot-account-info__refresh">
-          <AccountRefreshButton />
         </vot-block>
       </vot-block>
       <vot-block class="vot-account-info__block">
