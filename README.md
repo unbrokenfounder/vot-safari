@@ -2,8 +2,7 @@
 
 Озвучка и субтитры к видео на других языках прямо в Safari (macOS). Форк
 [voice-over-translation](https://github.com/ilyhalight/voice-over-translation)
-с новым интерфейсом в стиле Liquid Glass. Сборка рассчитана на Safari и браузеры
-на Chromium.
+с новым интерфейсом. Сборка рассчитана на Safari и браузеры на Chromium.
 
 ## Установка (для пользователей)
 

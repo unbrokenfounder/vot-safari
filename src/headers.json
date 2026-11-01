@@ -1,6 +1,6 @@
 {
   "name": "VOT Safari",
-  "description": "Озвучка и субтитры к видео на других языках в Safari. Интерфейс в стиле Liquid Glass.",
+  "description": "Озвучка и субтитры к видео на других языках в Safari.",
   "version": "1.12.5",
   "author": "Toil, SashaXser, MrSoczekXD, mynovelhost, sodapng",
   "namespace": "vot",

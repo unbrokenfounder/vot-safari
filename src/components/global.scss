@@ -43,7 +43,7 @@
   );
 
   /*
-   * Liquid Glass layer. Tints derive from --vot-surface-rgb, so user overrides
+   * Glass surface tokens. Tints derive from --vot-surface-rgb, so user overrides
    * of the --vot-*-rgb tokens keep working. Opaque fallbacks are used when
    * backdrop-filter is missing or transparency is reduced.
    */
