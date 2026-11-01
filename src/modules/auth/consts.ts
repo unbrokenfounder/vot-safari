@@ -1,4 +1,4 @@
-export const YANDEX_AUTH_CLIENT_ID = "1666fbe22f3749c581002a4f97b2592d";
+export const YANDEX_AUTH_CLIENT_ID = "1b990ece34be4c9eb0f08d9eebec6939";
 export const YANDEX_AUTH_ORIGIN = "https://oauth.yandex.ru";
 export const YANDEX_AUTH_URL = `${YANDEX_AUTH_ORIGIN}/authorize`;
 export const YANDEX_AUTH_REDIRECT_URI = `${YANDEX_AUTH_ORIGIN}/verification_code`;
