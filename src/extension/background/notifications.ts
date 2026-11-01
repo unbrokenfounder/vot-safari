@@ -76,6 +76,9 @@ async function notificationsCreate(
   notificationId: string,
   options: Browser.notifications.NotificationCreateOptions,
 ): Promise<void> {
+  if (!hasNotificationsApi()) {
+    throw new Error("Notifications API is not available in this browser");
+  }
   if (import.meta.env.FIREFOX) {
     await browser.notifications.create(notificationId, options);
     return;
@@ -101,6 +104,10 @@ async function notificationsClear(notificationId: string): Promise<void> {
     });
   });
 }
+
+// Safari does not implement the notifications API at all.
+const hasNotificationsApi = (): boolean =>
+  typeof browser.notifications?.create === "function";
 
 export function registerBackgroundNotifications(): void {
   browser.runtime.onMessage.addListener(
@@ -137,6 +144,8 @@ export function registerBackgroundNotifications(): void {
       return true;
     },
   );
+
+  if (!hasNotificationsApi()) return;
 
   browser.notifications.onClicked.addListener((notificationId) => {
     if (!notificationId.startsWith("vot:")) return;
