@@ -43,6 +43,21 @@
     }
   }
 
+  // Live voices are marked with the same pink as in the voice picker.
+  &[data-voice="live"] {
+    .vot-translate-button:not([data-status="error"]) .vot-segment-label,
+    .vot-translate-button:not([data-status="error"]) .vot-dropdown-arrow {
+      color: #ff7ac6;
+      fill: #ff7ac6;
+    }
+  }
+
+  // The arrow lives inside the translate button: do not light up both
+  // highlights at once, otherwise they merge into one blob.
+  .vot-translate-button:has(.vot-dropdown-arrow:hover)::before {
+    opacity: 0;
+  }
+
   &[data-status="error"] .vot-translate-button {
     color: rgb(var(--vot-error-rgb, 242, 139, 130));
   }
@@ -138,11 +153,12 @@
     flex: 0 0 auto;
     justify-content: center;
     align-items: center;
-    width: 30px;
-    min-width: 30px;
-    height: 100%;
-    margin-inline-end: -4px !important;
-    margin-top: 2px !important;
+    width: 28px;
+    min-width: 28px;
+    height: 28px;
+    align-self: center;
+    margin-inline-end: 2px !important;
+    margin-top: 0 !important;
     color: inherit;
     fill: inherit;
     opacity: 0.95;
@@ -160,7 +176,7 @@
     }
 
     &:hover {
-      background: rgba(var(--vot-helper-theme-rgb), 0.04);
+      background: rgba(var(--vot-helper-theme-rgb), 0.14);
     }
 
     &::before,

@@ -186,6 +186,7 @@ export function SegmentedButton(props: SegmentedButtonProps): JSX.Element {
       class="vot-segmented-button"
       data-direction={finalProps.direction}
       data-status={finalProps.status}
+      data-voice={activeVoice()}
       data-loading={finalProps.isLoading}
       onClick={(event) => {
         event.preventDefault();
