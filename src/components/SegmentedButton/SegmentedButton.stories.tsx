@@ -185,7 +185,7 @@ export const SegmentedButtonActiveVoiceTooltipDismissal: Story = {
 
     try {
       await userEvent.click(activeVoice);
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 400));
       const popover = document.querySelector<HTMLElement>(".vot-voice-popover");
       const hasVisibleTooltip = Array.from(
         document.querySelectorAll<HTMLElement>(".vot-tooltip"),
