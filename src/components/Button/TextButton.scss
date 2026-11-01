@@ -6,7 +6,7 @@
     var(--vot-primary-rgb, 33, 150, 243)
   );
   @include button.vot-button-base(
-    $radius: var(--vot-radius-s),
+    $radius: var(--vot-radius-pill),
     $padding: 0 var(--vot-space-2),
     $min-width: 64px,
     $height: 36px,

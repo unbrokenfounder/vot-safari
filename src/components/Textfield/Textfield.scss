@@ -32,7 +32,7 @@
     border-width: 1px !important;
     border-color: transparent var(--vot-helper-safari2)
       var(--vot-helper-safari2) !important;
-    border-radius: 4px !important;
+    border-radius: var(--vot-radius-s) !important;
     padding: 15px 13px 15px !important;
     width: 100% !important;
     height: inherit !important;
@@ -47,9 +47,7 @@
     font-size: inherit !important;
     line-height: inherit !important;
     caret-color: var(--vot-helper-theme) !important;
-    transition:
-      border 0.2s,
-      box-shadow 0.2s !important;
+    transition: border 0.2s, box-shadow 0.2s !important;
 
     &:not(:focus):not(
         :is(.vot-show-placeholder, .vot-show-placeholer)
@@ -75,10 +73,7 @@
       font-family: inherit;
       line-height: 15px !important;
       cursor: text !important;
-      transition:
-        color 0.2s,
-        font-size 0.2s,
-        line-height 0.2s !important;
+      transition: color 0.2s, font-size 0.2s, line-height 0.2s !important;
       pointer-events: none !important;
     }
 
@@ -102,9 +97,7 @@
       height: 8px !important;
       pointer-events: none !important;
       box-shadow: inset 0 1px transparent !important;
-      transition:
-        border 0.2s,
-        box-shadow 0.2s !important;
+      transition: border 0.2s, box-shadow 0.2s !important;
     }
 
     & + .vot-textfield__label::before {

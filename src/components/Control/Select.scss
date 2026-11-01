@@ -1,3 +1,5 @@
+@use "../mixins" as shared;
+
 .vot-select {
   display: flex;
   align-items: center;
@@ -74,8 +76,9 @@
     flex-direction: column;
     font-size: 16px;
     padding: 0.5em;
-    border-radius: 0.75em;
-    background: rgb(var(--vot-secondary-rgb, 43, 44, 48));
+    border: 1px solid transparent;
+    border-radius: var(--vot-radius-m);
+    @include shared.vot-glass(var(--vot-glass-tint-strong));
     color: rgba(var(--vot-onsurface-rgb), 0.87);
     max-width: min(300px, 100%);
     max-height: min(85vh, 350px, var(--vot-floating-available-height, 100vh));

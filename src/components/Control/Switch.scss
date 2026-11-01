@@ -126,7 +126,7 @@
     align-items: center;
     background: var(--vot-switch-track);
     border: 2px solid var(--vot-switch-outline);
-    border-radius: 16px;
+    border-radius: var(--vot-radius-pill);
     box-sizing: border-box;
     display: flex;
     flex: 0 0 auto;
@@ -162,7 +162,7 @@
     transform: translate(0, -50%);
     transition-duration: var(--vot-switch-duration);
     transition-property: background-color, box-shadow, height, transform, width;
-    transition-timing-function: var(--vot-easing-standard);
+    transition-timing-function: var(--vot-easing-spring);
     width: 16px;
   }
 

@@ -10,7 +10,7 @@
     var(--vot-onprimary-rgb, 255, 255, 255)
   );
   @include button.vot-button-base(
-    $radius: var(--vot-radius-s),
+    $radius: var(--vot-radius-pill),
     $padding: 0 var(--vot-space-4),
     $min-width: 64px,
     $height: 36px,
@@ -19,8 +19,10 @@
   border: none !important;
   color: rgb(var(--vot-helper-ontheme));
   background-color: rgb(var(--vot-helper-theme));
-  box-shadow: var(--vot-shadow-1);
-  transition: box-shadow var(--vot-duration-medium) var(--vot-easing-standard);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), var(--vot-shadow-1);
+  transition:
+    box-shadow var(--vot-duration-medium) var(--vot-easing-standard),
+    transform var(--vot-duration-medium) var(--vot-easing-spring);
   @include button.vot-button-layers(rgb(var(--vot-helper-ontheme)));
   @include button.vot-button-layer-hover(0.08);
   @include button.vot-button-layer-active(0.32);
