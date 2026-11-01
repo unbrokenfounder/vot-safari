@@ -62,6 +62,9 @@
     gap: var(--vot-space-2) !important;
     height: 100%;
     padding: 0 var(--vot-space-2) !important;
+    // The hover layer inherits this radius, so the highlight is always a
+    // rounded pill/circle instead of a square.
+    border-radius: var(--vot-radius-pill) !important;
     background-color: transparent;
     color: inherit;
     transition: background-color var(--vot-duration-fast)
@@ -105,8 +108,13 @@
 
     &-only-icon {
       @extend .vot-segment;
-      min-width: 36px;
+      flex: 0 0 32px;
+      width: 32px;
+      min-width: 32px;
+      height: 32px;
+      margin: 0 2px;
       padding: 0 !important;
+      border-radius: 50% !important;
       &[data-active="true"] {
         color: rgb(var(--vot-primary-rgb, 33, 150, 243));
       }
