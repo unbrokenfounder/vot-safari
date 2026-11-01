@@ -1,12 +1,12 @@
 import { availableTTS } from "@vot.js/shared/consts";
 import type { ResponseLang } from "@vot.js/shared/types/data";
 
-function getNavigatorLang() {
-  if (typeof navigator === "undefined") {
-    return "en";
-  }
+// This fork targets Russian-speaking users: UI language and the default
+// translation target are fixed to Russian regardless of the browser language.
+const DEFAULT_FORK_LANG = "ru";
 
-  return navigator.language?.substring(0, 2).toLowerCase() || "en";
+function getNavigatorLang() {
+  return DEFAULT_FORK_LANG;
 }
 
 const slavicLangs = new Set([
