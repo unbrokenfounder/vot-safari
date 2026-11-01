@@ -3,6 +3,7 @@ import { t } from "../../localization/localizationProvider";
 import { AboutSection } from "../About/AboutSection";
 import { AccountMenu, type AccountMenuProps } from "../Account/AccountMenu";
 import { GeneralButton } from "../Button/GeneralButton";
+import { OutlinedButton } from "../Button/OutlinedButton";
 import { Dialog, type DialogProps } from "../Dialog/Dialog";
 import {
   SettingsAppearanceSection,
@@ -59,7 +60,7 @@ export function SettingsDialog(props: SettingsDialogProps): JSX.Element {
         onClose={props.onClose}
         title={t("VOTSettings")}
       >
-        <SettingsSection title={t("VOTMyAccount")} isOpen={true}>
+        <SettingsSection title={t("VOTMyAccount")} alwaysOpen>
           <AccountMenu {...props.account} />
         </SettingsSection>
         <SettingsTranslationSection {...props.translation} />
@@ -82,17 +83,25 @@ export function SettingsDialog(props: SettingsDialogProps): JSX.Element {
         onClose={() => setIsResetConfirmOpen(false)}
         title={t("resetSettings")}
         footer={
-          <GeneralButton
-            onClick={() => {
-              setIsResetConfirmOpen(false);
-              props.footer?.onResetSettingsClick?.();
-            }}
-          >
-            {t("resetSettings")}
-          </GeneralButton>
+          <>
+            <OutlinedButton onClick={() => setIsResetConfirmOpen(false)}>
+              Отмена
+            </OutlinedButton>
+            <GeneralButton
+              onClick={() => {
+                setIsResetConfirmOpen(false);
+                props.footer?.onResetSettingsClick?.();
+              }}
+            >
+              {t("resetSettings")}
+            </GeneralButton>
+          </>
         }
       >
-        <></>
+        <vot-block class="vot-settings-confirm__text">
+          Вы точно хотите сбросить настройки? Все параметры вернутся к значениям
+          по умолчанию, и вам придётся заново войти в аккаунт.
+        </vot-block>
       </Dialog>
     </>
   );

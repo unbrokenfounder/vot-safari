@@ -24,6 +24,15 @@
   background: transparent;
 }
 
+.vot-settings-section__title {
+  padding: 14px 4px;
+  font-size: 17px;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  user-select: none;
+}
+
 // No hover tint and no outline/ring around the header, including while pressed.
 // Keyboard users still get a subtle background on :focus-visible.
 .vot-settings-section .vot-settings-section__header {

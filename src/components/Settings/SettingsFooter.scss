@@ -2,3 +2,11 @@
   display: flex;
   gap: var(--vot-space-2);
 }
+
+.vot-settings-confirm__text {
+  padding-bottom: var(--vot-space-2);
+  color: rgba(var(--vot-onsurface-rgb, 250, 250, 250), 0.7);
+  font-size: 15px;
+  line-height: 22px;
+  user-select: none;
+}

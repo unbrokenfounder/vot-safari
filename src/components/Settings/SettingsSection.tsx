@@ -15,6 +15,7 @@ export type SettingsSectionProps = {
   children: JSX.Element;
   isOpen?: boolean;
   lazy?: boolean;
+  alwaysOpen?: boolean;
 };
 
 export function SettingsSection(props: SettingsSectionProps): JSX.Element {
@@ -32,6 +33,23 @@ export function SettingsSection(props: SettingsSectionProps): JSX.Element {
   effect(() => {
     setIsOpen(finalProps.isOpen);
   });
+
+  if (finalProps.alwaysOpen) {
+    return (
+      <vot-block class="vot-settings-section" data-open="true">
+        <vot-block class="vot-settings-section__title">
+          {finalProps.title}
+        </vot-block>
+        <vot-block class="vot-settings-section__panel">
+          <vot-block class="vot-settings-section__panel-inner">
+            <vot-block class="vot-settings-section__content">
+              {finalProps.children}
+            </vot-block>
+          </vot-block>
+        </vot-block>
+      </vot-block>
+    );
+  }
 
   return (
     <vot-block class="vot-settings-section" data-open={isOpen()}>
