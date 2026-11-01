@@ -1,5 +1,4 @@
 import { getUUID } from "@vot.js/shared/secure";
-import { captureException } from "#modules/telemetry/client.ts";
 import { setAccount, updateAccount } from "#stores/account.ts";
 import type { Account } from "#types/storage.ts";
 import { GM_fetch } from "#utils/gm.ts";
@@ -63,18 +62,11 @@ async function readAuthJson<T>(res: Response): Promise<T> {
 // Auth errors may echo tokens or response bodies, so only a fixed message is sent.
 function reportAuthFailure(
   error: unknown,
-  operation: string,
-  message: string,
+  _operation: string,
+  _message: string,
 ): void {
   if (error instanceof AuthRejectedError) return;
 
-  captureException(error, {
-    source: "auth",
-    operation,
-    redactedMessage: message,
-    extra:
-      error instanceof AuthResponseError ? { status: error.status } : undefined,
-  });
 }
 
 const isTokenError = (data: unknown): data is TokenError => {

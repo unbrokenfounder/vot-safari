@@ -12,8 +12,6 @@ import {
   selectSmallestAudioFormat,
 } from "../audioDownloader/utils";
 import { localizationProvider } from "../localization/localizationProvider";
-import { captureException } from "../modules/telemetry/client";
-import { getTranslationTags } from "../modules/telemetry/context";
 import type { VideoData as RuntimeVideoData } from "../types/videoHandler";
 import debug from "../utils/debug";
 import { GM_fetch } from "../utils/gm";
@@ -519,24 +517,12 @@ export class VOTVideoManager {
 
   private async fetchRawVideoData() {
     const { site, data } = this.videoHandler;
-    try {
       return await getVideoData(site, {
         fetchFn: GM_fetch,
         video: this.videoHandler.video,
         language: localizationProvider.lang,
         mediaProxy: normalizeMediaProxyHost(data?.mediaProxyHost),
       });
-    } catch (err) {
-      // Helper messages can echo video ids and titles, so only the stack is sent.
-      captureException(err, {
-        source: "videoData",
-        operation: "getVideoData",
-        dedupeKey: globalThis.location.href,
-        redactedMessage: "getVideoData failed",
-        tags: getTranslationTags({ site, data }),
-      });
-      throw err;
-    }
   }
 
   async getVideoData() {

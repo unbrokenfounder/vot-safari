@@ -53,7 +53,6 @@ export type SettingsStore = {
   detectService: DetectService;
   // other
   translateAPIErrors: boolean;
-  sendErrorReports: boolean;
   newAudioPlayer: boolean;
   onlyBypassMediaCSP: boolean;
   showPiPButton: boolean;
@@ -80,8 +79,6 @@ export type SettingsStore = {
 
 export function createDefaultSettings(
   audioContextSupported = false,
-  sendErrorReports = typeof VOT_BUILD_VARIANT === "undefined" ||
-    VOT_BUILD_VARIANT !== "firefox",
 ): SettingsStore {
   return {
     // menu
@@ -109,7 +106,6 @@ export function createDefaultSettings(
     detectService: DEFAULT_DETECT_SERVICE,
     // other
     translateAPIErrors: true,
-    sendErrorReports,
     newAudioPlayer: audioContextSupported,
     onlyBypassMediaCSP: audioContextSupported,
     showPiPButton: false,

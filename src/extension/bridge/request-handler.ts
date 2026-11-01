@@ -1,7 +1,6 @@
 import {
   type AnyObject,
   BG_MSG_STORAGE,
-  BG_MSG_TELEMETRY_CONSENT,
 } from "../shared/constants";
 import { browser } from "wxt/browser";
 import { runtimeSendMessage } from "../shared/webext";
@@ -11,13 +10,6 @@ export async function handleBridgeRequest(
   payload: AnyObject,
 ): Promise<unknown> {
   switch (action) {
-    case BG_MSG_TELEMETRY_CONSENT: {
-      const response = await runtimeSendMessage<{
-        ok?: boolean;
-        result?: unknown;
-      }>({ type: BG_MSG_TELEMETRY_CONSENT });
-      return response?.ok === true && response.result === true;
-    }
     case "handshake": {
       const manifest = browser.runtime.getManifest();
       const id = browser.runtime.id ?? null;

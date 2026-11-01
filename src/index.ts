@@ -1,7 +1,6 @@
 import type { ServiceConf } from "@vot.js/ext/types/service";
 import { getService } from "@vot.js/ext/utils/videoData";
 import { YANDEX_AUTH_ORIGIN } from "#modules/auth/consts.ts";
-import { captureException } from "#modules/telemetry/client.ts";
 import logger from "#utils/logger.ts";
 import { getOrCreateBootState } from "./bootstrap/bootState";
 import { initIframeInteractor } from "./bootstrap/iframeInteractor";
@@ -144,10 +143,6 @@ export async function bootstrapContentScript(): Promise<void> {
     bootState.status = "failed";
     bootState.error = e;
     logger.error(e);
-    captureException(e, {
-      source: "bootstrap",
-      operation: "bootstrapContentScript",
-    });
   }
 }
 

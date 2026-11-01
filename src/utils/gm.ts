@@ -41,23 +41,6 @@ type GmFetchAttempt = {
   category: string;
 };
 
-export type GmFetchFailure = {
-  error: Error;
-  host?: string;
-  method: string;
-  attempts: GmFetchAttempt[];
-};
-
-// Registered by the telemetry module; a direct import would form a cycle
-// through storage.ts, which reads this module's top-level constants.
-let gmFetchFailureHandler: ((failure: GmFetchFailure) => void) | undefined;
-
-export function setGmFetchFailureHandler(
-  handler: typeof gmFetchFailureHandler,
-): void {
-  gmFetchFailureHandler = handler;
-}
-
 const scriptHandler = getGMInfo()?.scriptHandler;
 
 export function getScriptTitle(): string {
@@ -401,24 +384,12 @@ async function executePromiseGmXhr(
   }
 }
 
-function throwGmFetchFailure(
-  urlStr: string,
-  method: string,
-  attempts: GmFetchAttempt[],
-): never {
+function throwGmFetchFailure(attempts: GmFetchAttempt[]): never {
   debug.warn("[GM_fetch] none of the GM approaches worked");
   const lastCategory = attempts.at(-1)?.category;
   const failure = new Error("All GM approaches failed", {
     cause: lastCategory ? new Error(lastCategory) : undefined,
   });
-  try {
-    gmFetchFailureHandler?.({
-      error: failure,
-      host: getRequestHost(urlStr),
-      method,
-      attempts,
-    });
-  } catch {}
   throw failure;
 }
 
@@ -494,7 +465,7 @@ async function gmXhrFetch(
     attempts.push({ approach: "GM.xmlHttpRequest", category: "unavailable" });
   }
 
-  throwGmFetchFailure(urlStr, method, attempts);
+  throwGmFetchFailure(attempts);
 }
 
 export async function GM_fetch(

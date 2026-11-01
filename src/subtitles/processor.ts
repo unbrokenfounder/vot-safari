@@ -1,7 +1,5 @@
 import YoutubeHelper from "@vot.js/ext/helpers/youtube";
 import logger from "#utils/logger.ts";
-import { captureException } from "../modules/telemetry/client";
-import type { Tags } from "../modules/telemetry/event";
 import type {
   ProcessedSubtitles,
   SubtitleDescriptor,
@@ -825,11 +823,6 @@ const buildYandexSubtitles = (
   return subtitles;
 };
 
-export type SubtitlesErrorContext = {
-  dedupeKey?: string;
-  tags?: Tags;
-};
-
 /**
  * Thrown when the Yandex subtitles request fails (network error, timeout, etc).
  *
@@ -941,7 +934,6 @@ export const SubtitlesProcessor = {
 
   async fetchSubtitles(
     descriptorInput: SubtitleDescriptor,
-    errorContext: SubtitlesErrorContext = {},
   ): Promise<ProcessedSubtitles> {
     const descriptor = parseSubtitleDescriptor(descriptorInput);
 
@@ -956,10 +948,8 @@ export const SubtitlesProcessor = {
       url = appendYoutubePoTokenParams(url);
     }
 
-    let operation = "fetchSubtitles";
     try {
       const rawSubtitles = await fetchRawSubtitles(url, format);
-      operation = "parseSubtitles";
       const normalized = normalizeFetchedSubtitles(
         parseRawSubtitles(rawSubtitles, format),
         descriptor,
@@ -973,16 +963,6 @@ export const SubtitlesProcessor = {
       return subtitlesWithTokens;
     } catch (error) {
       logger.error("Failed to process subtitles:", error);
-      captureException(error, {
-        source: "subtitles",
-        operation,
-        dedupeKey: errorContext.dedupeKey,
-        tags: {
-          ...errorContext.tags,
-          subtitles_source: source,
-          subtitles_format: format,
-        },
-      });
       return { format: "json", subtitles: [] };
     }
   },

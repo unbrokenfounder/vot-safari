@@ -33,7 +33,6 @@ export const PORT_NAME = "vot_gm_xhr";
 
 export const BG_MSG_STORAGE = "gm_storage";
 export const BG_MSG_NOTIFICATION = "gm_notification";
-export const BG_MSG_TELEMETRY_CONSENT = "telemetry_consent";
 
 type BridgeMarked = { [MARK]: true };
 

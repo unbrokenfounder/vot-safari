@@ -524,9 +524,6 @@ export class SettingsController {
           onChangeTranslateAPIErrors: this.createPersistedSettingHandler({
             storageKey: "translateAPIErrors",
           }),
-          onChangeSendErrorReports: this.createPersistedSettingHandler({
-            storageKey: "sendErrorReports",
-          }),
           isAudioContextSupported: this.videoHandler?.isAudioContextSupported,
           needBypassCSP: this.videoHandler.site.needBypassCSP,
           onChangeNewAudioPlayer: this.createPersistedSettingHandler({

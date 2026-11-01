@@ -2,11 +2,6 @@ import { matchesMedia } from "#utils/inputDevice.ts";
 import logger from "#utils/logger.ts";
 import { actualCompatVersion, repositoryUrl } from "../config/config";
 import { t } from "../localization/localizationProvider";
-import { captureException } from "../modules/telemetry/client";
-import {
-  getAudioFailureTags,
-  getTranslationTags,
-} from "../modules/telemetry/context";
 import { serializeProcessedSubtitles } from "../subtitles/standards";
 import type { Status } from "../types/components/votButton";
 import type { StorageData } from "../types/storage";
@@ -560,16 +555,6 @@ export class UIManager {
       );
     } catch (err) {
       logger.error("Download translation failed:", err);
-      captureException(err, {
-        source: "audio",
-        operation: "downloadTranslation",
-        dedupeKey: download.videoId,
-        redactedMessage: "Translation audio download failed",
-        tags: {
-          ...getTranslationTags(videoHandler),
-          ...getAudioFailureTags(err, "save"),
-        },
-      });
       if (
         !clickDownloadAnchor(downloadUrl, `${filename}.mp3`, {
           stopPropagation: false,

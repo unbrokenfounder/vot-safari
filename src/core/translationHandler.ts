@@ -10,11 +10,6 @@ import { AudioDownloader } from "../audioDownloader";
 import { STREAM_TIMEOUT_MS } from "../audioDownloader/strategies/webAudioBridge";
 import { t } from "../localization/localizationProvider";
 import { openAuthWindow } from "../modules/auth/window";
-import { captureException } from "../modules/telemetry/client";
-import {
-  getAudioFailureTags,
-  getTranslationTags,
-} from "../modules/telemetry/context";
 import { deleteAccount } from "../stores/account";
 import type {
   DownloadedAudioData,
@@ -395,22 +390,11 @@ export class VOTTranslationHandler {
   };
 
   private reportAudioFailure(
-    error: unknown,
-    operation: string,
-    stage: string,
-    videoId: string,
+    _error: unknown,
+    _operation: string,
+    _stage: string,
+    _videoId: string,
   ): void {
-    captureException(error, {
-      source: "audio",
-      operation,
-      dedupeKey: videoId,
-      // Upload errors can embed request urls and ids.
-      redactedMessage: "Audio request failed",
-      tags: {
-        ...getTranslationTags(this.videoHandler),
-        ...getAudioFailureTags(error, stage),
-      },
-    });
   }
 
   private finishDownloadSuccess(runId?: number) {
@@ -732,15 +716,6 @@ export class VOTTranslationHandler {
           hasAccountToken: hasAccountToken(this.videoHandler.data?.account),
         })
       ) {
-        captureException(err, {
-          source: "translation",
-          operation: "translateVideo",
-          dedupeKey: videoData.videoId,
-          tags: getTranslationTags(this.videoHandler, {
-            from: requestLang,
-            to: responseLang,
-          }),
-        });
       }
 
       await this.handleTranslationUiError(uiError);
