@@ -1,24 +1,22 @@
 .vot-account-logout {
-  --vot-theme-rgb: var(--vot-danger-rgb, 244, 67, 54);
+  --vot-theme-rgb: var(--vot-danger-rgb, 255, 84, 74);
 
   display: flex;
-  width: 100%;
 
   .vot-text-button {
-    font-weight: 600 !important;
-    width: 100%;
+    font-weight: 500 !important;
+    background-color: rgba(var(--vot-danger-rgb, 255, 84, 74), 0.12);
   }
 
   &__content {
     display: flex;
     align-items: center;
     gap: 0.5em;
-    width: 100%;
-    font-size: 1.125em;
+    font-size: 14px;
 
     svg {
-      width: 1.25em;
-      height: 1.25em;
+      width: 18px;
+      height: 18px;
     }
   }
 }

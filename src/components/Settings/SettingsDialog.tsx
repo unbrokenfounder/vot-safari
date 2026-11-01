@@ -52,7 +52,6 @@ export function SettingsDialog(props: SettingsDialogProps): JSX.Element {
       wide
       onClose={props.onClose}
       title={t("VOTSettings")}
-      footer={<SettingsFooter {...props.footer} />}
     >
       <SettingsSection title={t("VOTMyAccount")} isOpen={true}>
         <AccountMenu {...props.account} />
@@ -66,6 +65,9 @@ export function SettingsDialog(props: SettingsDialogProps): JSX.Element {
       <SettingsSection title={t("aboutExtension")} lazy>
         <AboutSection />
       </SettingsSection>
+      <vot-block class="vot-settings-actions">
+        <SettingsFooter {...props.footer} />
+      </vot-block>
     </Dialog>
   );
 }
