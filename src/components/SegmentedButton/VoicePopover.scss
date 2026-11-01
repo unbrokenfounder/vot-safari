@@ -125,8 +125,9 @@
     transition: background-color var(--vot-duration-fast)
       var(--vot-easing-standard);
 
-    & + & {
-      margin-top: 4px;
+    // A hidden divider sits between the cards, so `+` would never match.
+    & ~ & {
+      margin-top: 6px;
     }
 
     &:hover,
