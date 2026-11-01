@@ -30,9 +30,15 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    min-height: 32px;
-    padding: var(--vot-space-2) var(--vot-space-4) !important;
+    min-height: 40px;
+    padding: var(--vot-space-4) var(--vot-space-4) var(--vot-space-2) !important;
     gap: var(--vot-space-2);
+  }
+
+  &-title {
+    font-size: 17px;
+    font-weight: 500 !important;
+    letter-spacing: -0.01em;
   }
 
   &__body {
@@ -41,8 +47,8 @@
     flex-direction: column;
     min-height: 1.375rem;
     overflow: auto;
-    padding: 0 var(--vot-space-4) !important;
-    gap: var(--vot-space-2);
+    padding: var(--vot-space-1) var(--vot-space-4) 0 !important;
+    gap: var(--vot-space-3);
     overscroll-behavior: contain;
     @include shared.vot-overlay-scrollbar;
   }
@@ -54,7 +60,7 @@
     padding: var(--vot-space-4) !important;
 
     &:empty {
-      padding: var(--vot-space-4) 0 0 0 !important;
+      padding: var(--vot-space-2) 0 0 0 !important;
     }
   }
 }

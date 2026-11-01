@@ -15,7 +15,7 @@
   }
 
   &--live .vot-eq-bar {
-    fill: rgb(var(--vot-onsurface-rgb, 250, 250, 250));
+    fill: #e040a0;
   }
 }
 
@@ -37,12 +37,9 @@
 
   --vot-voice-active-standard-fg: rgb(var(--vot-primary-rgb, 139, 180, 245));
 
-  --vot-voice-active-live-bg: rgba(
-    var(--vot-onsurface-rgb, 250, 250, 250),
-    0.1
-  );
+  --vot-voice-active-live-bg: rgba(224, 64, 160, 0.16);
 
-  --vot-voice-active-live-fg: rgb(var(--vot-onsurface-rgb, 250, 250, 250));
+  --vot-voice-active-live-fg: #ff6fc0;
 
   position: absolute;
   top: 0;

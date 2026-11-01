@@ -28,7 +28,8 @@
     align-items: center;
     gap: var(--vot-space-2);
     padding: 0 var(--vot-space-3) 0 var(--vot-space-4);
-    border-radius: var(--vot-radius-pill);
+    border-radius: var(--vot-radius-pill) !important;
+    overflow: hidden;
     border: 1px solid transparent;
     background: rgba(var(--vot-onsurface-rgb), 0.07);
     color: rgb(var(--vot-onsurface-rgb));
@@ -125,7 +126,7 @@
       position: relative;
       cursor: pointer;
       padding: 11px 44px 11px 16px;
-      border-radius: var(--vot-radius-s);
+      border-radius: var(--vot-radius-m);
       transition: background var(--vot-duration-medium)
         var(--vot-easing-standard);
 
