@@ -14,7 +14,7 @@
 .vot-settings-section__header {
   width: 100%;
   margin: 0 !important;
-  padding: 8px 4px !important;
+  padding: 14px 4px !important;
   min-height: 0;
   line-height: 1.3;
   border-radius: var(--vot-radius-s) !important;
@@ -22,11 +22,26 @@
   font-weight: 500 !important;
   letter-spacing: -0.01em;
   background: transparent;
-
 }
 
-.vot-settings-section .vot-settings-section__header:hover {
-  background: transparent !important;
+// No hover tint and no outline/ring around the header, including while pressed.
+// Keyboard users still get a subtle background on :focus-visible.
+.vot-settings-section .vot-settings-section__header {
+  &:hover,
+  &:active,
+  &:focus {
+    background: transparent !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  &:focus-visible {
+    background: rgba(var(--vot-helper-onsurface-rgb), 0.06) !important;
+  }
+
+  &:active {
+    background: transparent !important;
+  }
 }
 
 .vot-settings-section__chevron {
@@ -98,7 +113,7 @@
 .vot-settings-section__content {
   --vot-settings-control-width: 220px;
 
-  margin: 0 0 var(--vot-space-3) !important;
+  margin: 0 0 var(--vot-space-2) !important;
   display: flex;
   flex-direction: column;
   border-radius: var(--vot-radius-l);
@@ -119,7 +134,7 @@
   & > .vot-account-menu {
     width: 100% !important;
     min-height: 52px;
-    padding: 10px 20px !important;
+    padding: 14px 20px !important;
     box-sizing: border-box;
   }
 
