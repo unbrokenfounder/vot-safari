@@ -343,7 +343,6 @@ export function SegmentedButtonMenu(
         title={t("VOTSubtitles")}
         options={finalProps.subtitlesOptions}
         selectedValue={finalProps.selectedSubtitles}
-        search
         loading={finalProps.subtitlesLoading}
         mount={finalProps.selectMount}
         controlsRef={(controls) => (subtitlesSelectControls = controls)}
