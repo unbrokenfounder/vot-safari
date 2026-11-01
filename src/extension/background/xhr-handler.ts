@@ -578,6 +578,18 @@ export function registerXhrPortListener(): void {
         if (cache !== undefined) init.cache = cache;
 
         const res = await fetch(url, init);
+        if (!res.ok) {
+          const bodyText = await res
+            .clone()
+            .text()
+            .catch(() => "");
+          logger.warn("[VOT Extension] Request failed", {
+            url,
+            status: res.status,
+            sentHeaders: allHeaders,
+            responseBody: bodyText.slice(0, 500),
+          });
+        }
         await handleFetchSuccess({ url, method, responseType, res });
       } catch (err) {
         handleFetchFailure(url, method, responseType, err);
