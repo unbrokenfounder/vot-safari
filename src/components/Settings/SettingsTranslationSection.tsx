@@ -110,7 +110,6 @@ export function SettingsTranslationSection(
       />
       <Select
         multiple={true}
-        search={true}
         title={t("None")}
         options={dontTranslateLanguagesOptions}
         selectedValues={settings.dontTranslateLanguages}
