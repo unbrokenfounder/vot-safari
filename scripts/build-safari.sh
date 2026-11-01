@@ -13,4 +13,6 @@ xcrun safari-web-extension-converter .output/chrome-mv3 \
   --bundle-identifier com.lurevelle.VOT-Safari \
   --macos-only --no-open --no-prompt --force
 
+python3 scripts/generate-icons.py
+
 echo "Xcode project: safari/VOT Safari/VOT Safari.xcodeproj"

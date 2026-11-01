@@ -1,18 +1,19 @@
 {
-  "name": "voice-over-translation",
-  "version": "1.0.0",
+  "name": "vot-safari",
+  "version": "1.12.5",
   "author": "Toil",
   "license": "MIT",
-  "description": "Watch videos in other languages with voice-over translation and subtitles in any browser",
+  "description": "Озвучка и субтитры к видео на других языках в Safari",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ilyhalight/voice-over-translation.git"
+    "url": "git+https://github.com/unbrokenfounder/vot-safari.git"
   },
   "keywords": [
-    "cli",
-    "vot",
-    "voice-over-translation"
+    "safari",
+    "extension",
+    "voice-over-translation",
+    "vot"
   ],
   "imports": {
     "#modules/*": "./src/modules/*",

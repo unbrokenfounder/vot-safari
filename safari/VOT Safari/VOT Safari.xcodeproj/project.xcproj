@@ -75,15 +75,15 @@
       "kind": "group",
       "name": "Products",
       "children": [
-        { "path": "<PRODUCTS>/VOT Safari.app", "id": "000243353097AD0000EB8335", "type": "wrapper.application", "index": false },
-        { "path": "<PRODUCTS>/VOT Safari Extension.appex", "id": "000243503097AD0100EB8335", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "VOT Safari/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
+        { "path": "<PRODUCTS>/VOT Safari.app", "id": "007FB3253097AE590056F06D", "type": "wrapper.application", "index": false },
+        { "path": "<PRODUCTS>/VOT Safari Extension.appex", "id": "007FB3403097AE5A0056F06D", "type": "wrapper.app-extension", "index": false, "target-membership": [ { "build-phase": "VOT Safari/copy/Embed Foundation Extensions", "header-preservation": "remove-on-copy" } ] },
       ],
     },
   ],
   "targets": [
     {
       "name": "VOT Safari",
-      "id": "000243343097AD0000EB8335",
+      "id": "007FB3243097AE590056F06D",
       "product": "Products/VOT Safari.app",
       "product-type": "application",
       "dependencies": [
@@ -139,7 +139,7 @@
       },
     }, {
       "name": "VOT Safari Extension",
-      "id": "0002434F3097AD0100EB8335",
+      "id": "007FB33F3097AE5A0056F06D",
       "product": "Products/VOT Safari Extension.appex",
       "product-type": "app-extension",
       "build-phases": [
