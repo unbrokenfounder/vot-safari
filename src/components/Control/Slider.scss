@@ -1,10 +1,11 @@
 .vot-slider {
   --vot-slider-track-bg: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.15);
-  --vot-slider-track-progress-bg: rgb(var(--vot-primary-rgb, 33, 150, 243));
-  --vot-slider-size: 1em;
+  --vot-slider-track-progress-bg: rgb(var(--vot-onsurface-rgb, 250, 250, 250));
+  --vot-slider-size: 4px;
   --vot-slider-border-radius: 0.5em;
-  --vot-slider-handle-bg: rgb(var(--vot-primary-rgb, 139, 180, 245));
-  --vot-slider-handle-size: 44px;
+  --vot-slider-handle-bg: rgb(var(--vot-onsurface-rgb, 250, 250, 250));
+  --vot-slider-handle-size: 28px;
+  --vot-slider-handle-thumb: 16px;
   --vot-slider-transition: var(--vot-duration-medium) var(
     --vot-easing-standard
   );
@@ -35,14 +36,12 @@
     background: var(--vot-slider-track-bg);
     width: 100%;
     height: var(--vot-slider-size);
-    border-radius: var(--vot-slider-border-radius);
+    border-radius: var(--vot-radius-pill);
     pointer-events: none;
     &-progress {
       background: var(--vot-slider-track-progress-bg);
       position: absolute;
       width: calc(100% * var(--vot-progress, 0));
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
       transition: width var(--vot-slider-transition);
     }
   }
@@ -50,11 +49,11 @@
   &__handle {
     position: absolute;
     left: calc(100% * var(--vot-progress, 0));
-    width: 4px;
-    height: var(--vot-slider-handle-size);
+    width: var(--vot-slider-handle-thumb);
+    height: var(--vot-slider-handle-thumb);
     background: var(--vot-slider-handle-bg);
-    outline: 4px solid var(--vot-slider-track-bg);
-    border-radius: 4px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
     pointer-events: none;
     will-change: transform;
     transition:

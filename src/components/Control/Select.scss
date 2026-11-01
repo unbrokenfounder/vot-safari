@@ -11,33 +11,35 @@
     flex: 1;
 
     &__description {
-      color: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.68);
-      font-size: 14px;
+      color: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6);
+      font-size: 13px;
       font-weight: 400;
-      letter-spacing: 0.25px;
-      line-height: 20px;
+      line-height: 18px;
     }
   }
 
   &-outer {
     cursor: pointer;
-
-    width: 120px;
-    max-width: 120px;
+    width: var(--vot-settings-control-width, 200px);
+    max-width: 100%;
+    height: 36px;
     display: flex;
     align-items: center;
-    padding: 0.5em;
-    border-radius: 0.75em;
+    gap: var(--vot-space-2);
+    padding: 0 var(--vot-space-3);
+    border-radius: var(--vot-radius-s);
     border: 1px solid var(--vot-border-color);
-    color: rgba(var(--vot-onsurface-rgb), 0.87);
-    transition: border-color var(--vot-duration-medium)
-      var(--vot-easing-standard);
+    background: rgba(var(--vot-onsurface-rgb), 0.04);
+    color: rgb(var(--vot-onsurface-rgb));
+    font-size: 14px;
+    transition:
+      border-color var(--vot-duration-medium) var(--vot-easing-standard),
+      background var(--vot-duration-medium) var(--vot-easing-standard);
 
     &__title {
       flex: 1;
       height: 24px;
-      font-size: 0.8em;
-      margin-top: -2px;
+      font-size: 14px;
       align-content: center;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -46,7 +48,8 @@
 
     &__arrow {
       display: flex;
-      font-size: 1.5em;
+      font-size: 20px;
+      opacity: 0.5;
       fill: currentColor;
       transition: transform var(--vot-duration-medium)
         var(--vot-easing-standard);
@@ -59,6 +62,7 @@
 
     &:not([aria-disabled="true"]):hover {
       border-color: var(--vot-border-color-hover);
+      background: rgba(var(--vot-onsurface-rgb), 0.07);
     }
 
     &[aria-expanded="true"] .vot-select-outer__arrow {
@@ -74,8 +78,8 @@
     user-select: none;
     display: flex;
     flex-direction: column;
-    font-size: 16px;
-    padding: 0.5em;
+    font-size: 14px;
+    padding: 6px;
     border: 1px solid var(--vot-border-color);
     border-radius: var(--vot-radius-m);
     background: rgb(var(--vot-secondary-rgb, 38, 38, 38));
@@ -116,8 +120,8 @@
 
     &__option {
       cursor: pointer;
-      padding: 0.5em 0.75em;
-      border-radius: 0.5em;
+      padding: 8px 12px;
+      border-radius: var(--vot-radius-xs);
       transition: background var(--vot-duration-medium)
         var(--vot-easing-standard);
 
@@ -127,16 +131,12 @@
       }
 
       &:not([aria-disabled="true"]):hover {
-        background: rgba(var(--vot-onsurface-rgb), 0.14);
+        background: rgba(var(--vot-onsurface-rgb), 0.08);
       }
 
       &[aria-selected="true"] {
-        color: rgb(var(--vot-select-inner-primary-rgb));
-        background: rgba(var(--vot-select-inner-primary-rgb), 0.2);
-
-        &:not([aria-disabled="true"]):hover {
-          background: rgba(var(--vot-select-inner-primary-rgb), 0.1);
-        }
+        font-weight: 600 !important;
+        background: rgba(var(--vot-onsurface-rgb), 0.12);
       }
     }
   }

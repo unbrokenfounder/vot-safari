@@ -8,11 +8,10 @@
     flex: 1 1 auto;
     text-align: left;
     &-desc {
-      color: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.68);
-      font-size: 14px;
+      color: rgba(var(--vot-onsurface-rgb, 0, 0, 0), 0.6);
+      font-size: 13px;
       font-weight: 400;
-      letter-spacing: 0.25px;
-      line-height: 20px;
+      line-height: 18px;
     }
   }
 
