@@ -8,14 +8,15 @@ import {
 import { t } from "../../localization/localizationProvider";
 import { getDeepActiveElement } from "../../utils/dom";
 import { IconButton } from "../Button/IconButton";
-import { Overlay } from "../Utils/Overlay";
 import { CloseIcon } from "../Icons/CloseIcon";
+import { Overlay } from "../Utils/Overlay";
 
 export type DialogProps = {
   title: JSX.Element;
   children: JSX.Element;
   footer?: JSX.Element;
   isOpen: boolean;
+  wide?: boolean;
   ref?: (element: HTMLElement) => void;
   onClose: () => void;
 };
@@ -194,6 +195,7 @@ export function Dialog(props: DialogProps): JSX.Element {
         ref={(element) => (box = element)}
         class="vot-dialog"
         data-vertical-align="center"
+        data-size={props.wide ? "wide" : undefined}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}

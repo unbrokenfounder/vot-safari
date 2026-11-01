@@ -21,7 +21,7 @@
   inset-block-start: 0;
   inset-block-end: 0;
   border: 1px solid var(--vot-border-color);
-  border-radius: var(--vot-radius-l);
+  border-radius: var(--vot-radius-xl);
   margin: auto !important;
   padding: 0 !important;
   color: var(--vot-helper-onsurface);
@@ -41,6 +41,10 @@
   transition:
     opacity var(--vot-duration-medium) var(--vot-easing-standard),
     transform var(--vot-duration-medium) var(--vot-easing-standard);
+
+  &[data-size="wide"] {
+    --vot-dialog-width: 820px;
+  }
 
   &[data-vertical-align="top"] {
     inset-block-start: var(--vot-dialog-viewport-margin);
@@ -105,8 +109,8 @@
 
   &-title {
     flex: 1;
-    font-size: 20px;
-    font-weight: 600 !important;
+    font-size: 24px;
+    font-weight: 500 !important;
     letter-spacing: -0.01em;
     line-height: 1.2;
     padding: var(--vot-space-6) var(--vot-space-6) var(--vot-space-4) !important;

@@ -1,11 +1,10 @@
+// ChatGPT-like settings: a plain heading row, then one rounded card whose rows
+// are "title + description on the left, control on the right".
 .vot-settings-section {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  overflow: hidden;
-  border: 1px solid var(--vot-border-color);
-  border-radius: var(--vot-radius-m);
-  background: rgba(var(--vot-helper-onsurface-rgb), 0.03);
+  margin-bottom: var(--vot-space-3) !important;
 
   & > * {
     margin: 0 !important;
@@ -15,11 +14,11 @@
 .vot-settings-section__header {
   width: 100%;
   margin: 0 !important;
-  padding: 14px var(--vot-space-4) !important;
-  border-radius: 0 !important;
-  font-size: 15px;
+  padding: 10px 4px !important;
+  border-radius: var(--vot-radius-s) !important;
+  font-size: 17px;
   font-weight: 500 !important;
-  letter-spacing: -0.005em;
+  letter-spacing: -0.01em;
   background: transparent;
 
   &:not([aria-disabled="true"]):hover {
@@ -49,7 +48,7 @@
 }
 
 // Height animates through grid rows (0fr -> 1fr): no JS measuring needed.
-// Padding must stay on the inner element, otherwise the track never closes.
+// The inner element must not have padding or the track never fully closes.
 .vot-settings-section__panel {
   display: grid;
   grid-template-rows: 0fr;
@@ -94,30 +93,42 @@
 }
 
 .vot-settings-section__content {
-  --vot-settings-control-width: 200px;
+  --vot-settings-control-width: 220px;
+  --vot-settings-row-line: rgba(var(--vot-helper-onsurface-rgb), 0.1);
 
   display: flex;
   flex-direction: column;
-  border-top: 1px solid var(--vot-border-color);
+  border: 1px solid var(--vot-border-color);
+  border-radius: var(--vot-radius-l);
+  overflow: hidden;
 
   & > * {
     margin: 0 !important;
   }
 
-  // Rows are separated by hairlines like the dashboard settings lists.
   // Never override `display` here: select/slider/hotkey rely on their own
   // flex/grid layout.
   & > .vot-switch,
   & > .vot-hotkey,
   & > .vot-select,
   & > .vot-slider-wrapper,
-  & > .vot-textfield {
+  & > .vot-textfield,
+  & > .vot-account-menu {
     width: 100% !important;
-    padding: 12px var(--vot-space-4) !important;
+    min-height: 64px;
+    padding: 14px 20px !important;
     box-sizing: border-box;
+    align-items: center;
   }
 
+  // Inset hairline between rows instead of a full-bleed border.
   & > * + * {
-    border-top: 1px solid var(--vot-border-color);
+    background-image: linear-gradient(
+      var(--vot-settings-row-line),
+      var(--vot-settings-row-line)
+    );
+    background-position: 20px 0;
+    background-size: calc(100% - 40px) 1px;
+    background-repeat: no-repeat;
   }
 }

@@ -49,6 +49,7 @@ export function SettingsDialog(props: SettingsDialogProps): JSX.Element {
     <Dialog
       ref={props.ref}
       isOpen={props.isOpen}
+      wide
       onClose={props.onClose}
       title={t("VOTSettings")}
       footer={<SettingsFooter {...props.footer} />}

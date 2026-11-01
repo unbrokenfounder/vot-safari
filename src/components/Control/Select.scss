@@ -20,26 +20,25 @@
 
   &-outer {
     cursor: pointer;
-    width: var(--vot-settings-control-width, 200px);
-    max-width: 100%;
-    height: 36px;
+    width: auto;
+    min-width: 120px;
+    max-width: var(--vot-settings-control-width, 220px);
+    height: 38px;
     display: flex;
     align-items: center;
     gap: var(--vot-space-2);
-    padding: 0 var(--vot-space-3);
-    border-radius: var(--vot-radius-s);
-    border: 1px solid var(--vot-border-color);
-    background: rgba(var(--vot-onsurface-rgb), 0.04);
+    padding: 0 var(--vot-space-3) 0 var(--vot-space-4);
+    border-radius: var(--vot-radius-pill);
+    border: 1px solid transparent;
+    background: rgba(var(--vot-onsurface-rgb), 0.07);
     color: rgb(var(--vot-onsurface-rgb));
-    font-size: 14px;
-    transition:
-      border-color var(--vot-duration-medium) var(--vot-easing-standard),
-      background var(--vot-duration-medium) var(--vot-easing-standard);
+    font-size: 15px;
+    transition: background var(--vot-duration-medium) var(--vot-easing-standard);
 
     &__title {
       flex: 1;
       height: 24px;
-      font-size: 14px;
+      font-size: 15px;
       align-content: center;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -61,8 +60,7 @@
     }
 
     &:not([aria-disabled="true"]):hover {
-      border-color: var(--vot-border-color-hover);
-      background: rgba(var(--vot-onsurface-rgb), 0.07);
+      background: rgba(var(--vot-onsurface-rgb), 0.14);
     }
 
     &[aria-expanded="true"] .vot-select-outer__arrow {
@@ -78,10 +76,11 @@
     user-select: none;
     display: flex;
     flex-direction: column;
-    font-size: 14px;
-    padding: 6px;
-    border: 1px solid var(--vot-border-color);
-    border-radius: var(--vot-radius-m);
+    font-size: 15px;
+    padding: 8px;
+    border: 1px solid transparent;
+    border-radius: var(--vot-radius-l);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
     background: rgb(var(--vot-secondary-rgb, 38, 38, 38));
     color: rgba(var(--vot-onsurface-rgb), 0.87);
     max-width: min(300px, 100%);
@@ -120,8 +119,8 @@
 
     &__option {
       cursor: pointer;
-      padding: 8px 12px;
-      border-radius: var(--vot-radius-xs);
+      padding: 12px 16px;
+      border-radius: var(--vot-radius-s);
       transition: background var(--vot-duration-medium)
         var(--vot-easing-standard);
 
@@ -135,7 +134,6 @@
       }
 
       &[aria-selected="true"] {
-        font-weight: 600 !important;
         background: rgba(var(--vot-onsurface-rgb), 0.12);
       }
     }
