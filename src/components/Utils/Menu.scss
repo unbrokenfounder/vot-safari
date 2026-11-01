@@ -8,7 +8,7 @@
 
   color: var(--vot-helper-onsurface);
   border: 1px solid transparent !important;
-  border-radius: var(--vot-radius-m) !important;
+  border-radius: 22px !important;
   @include shared.vot-glass(var(--vot-glass-tint-strong));
   @include shared.vot-font-family;
   font-size: 16px;
@@ -17,7 +17,8 @@
 
   display: flex;
   flex-direction: column;
-  min-width: min(320px, calc(100% - var(--vot-menu-side-offset, 0px)));
+  padding: var(--vot-space-2);
+  min-width: min(340px, calc(100% - var(--vot-menu-side-offset, 0px)));
   max-width: min(90vw, 560px);
   min-height: 100px;
   max-height: calc(
@@ -30,8 +31,9 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    min-height: 40px;
-    padding: var(--vot-space-4) var(--vot-space-4) var(--vot-space-2) !important;
+    min-height: 44px;
+    padding: var(--vot-space-1) var(--vot-space-1) var(--vot-space-1)
+      var(--vot-space-3) !important;
     gap: var(--vot-space-2);
   }
 
@@ -41,26 +43,43 @@
     letter-spacing: -0.01em;
   }
 
+  // Every row is a soft card, like the items of the voice popover.
   &__body {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     min-height: 1.375rem;
     overflow: auto;
-    padding: var(--vot-space-1) var(--vot-space-4) 0 !important;
-    gap: var(--vot-space-3);
+    padding: 0 !important;
+    gap: var(--vot-space-1);
     overscroll-behavior: contain;
     @include shared.vot-overlay-scrollbar;
+
+    & > * {
+      margin: 0 !important;
+      padding: 12px var(--vot-space-3) !important;
+      border-radius: 16px;
+      background: rgba(var(--vot-helper-onsurface-rgb), 0.06);
+    }
+
+    // Pills sit one step lighter than the card they live on.
+    .vot-select-outer {
+      background: rgba(var(--vot-helper-onsurface-rgb), 0.1);
+
+      &:hover {
+        background: rgba(var(--vot-helper-onsurface-rgb), 0.18);
+      }
+    }
   }
 
   &__footer {
     flex-shrink: 0;
     display: flex;
     justify-content: flex-end;
-    padding: var(--vot-space-4) !important;
+    padding: var(--vot-space-2) var(--vot-space-3) var(--vot-space-1) !important;
 
     &:empty {
-      padding: var(--vot-space-2) 0 0 0 !important;
+      padding: 0 !important;
     }
   }
 }

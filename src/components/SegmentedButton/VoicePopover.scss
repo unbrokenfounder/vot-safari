@@ -105,7 +105,7 @@
 
     &:hover,
     &:focus-visible {
-      background-color: rgba(var(--vot-helper-onsurface-rgb), 0.07);
+      background-color: rgba(var(--vot-helper-onsurface-rgb), 0.14);
     }
 
     // Check mark on the right for the active voice.
@@ -135,12 +135,22 @@
 
     &--active {
       background-color: rgba(var(--vot-helper-onsurface-rgb), 0.1);
+
+      &:hover,
+      &:focus-visible {
+        background-color: rgba(var(--vot-helper-onsurface-rgb), 0.18);
+      }
     }
   }
 
   &__item[data-voice="live"].vot-voice-popover__item--active {
     background-color: rgba(var(--vot-voice-live-rgb), 0.16);
     color: var(--vot-voice-live-fg);
+
+    &:hover,
+    &:focus-visible {
+      background-color: rgba(var(--vot-voice-live-rgb), 0.24);
+    }
 
     .vot-voice-popover__item-icon {
       background-color: rgba(var(--vot-voice-live-rgb), 0.28);
@@ -150,7 +160,7 @@
   &__item[data-voice="live"]:not(.vot-voice-popover__item--active) {
     &:hover,
     &:focus-visible {
-      background-color: rgba(var(--vot-voice-live-rgb), 0.1);
+      background-color: rgba(var(--vot-voice-live-rgb), 0.18);
     }
 
     .vot-voice-popover__item-icon {
