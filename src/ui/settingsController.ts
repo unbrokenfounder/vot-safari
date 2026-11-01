@@ -541,7 +541,6 @@ export class SettingsController {
           }),
         },
         footer: {
-          onBugReportClick: () => this.events["click:bugReport"].dispatch(),
           onResetSettingsClick: () =>
             this.events["click:resetSettings"].dispatch(),
         },
