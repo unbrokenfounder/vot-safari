@@ -1,5 +1,7 @@
 // Extension reloads leave orphaned isolated worlds running. A lifecycle port
 // detects context loss; takeover retires old worlds when a new bridge arrives.
+
+import { browser } from "wxt/browser";
 import debug from "../../utils/debug";
 import {
   BRIDGE_RESTART_ERROR_CODE,
@@ -11,7 +13,6 @@ import {
   TYPE_BRIDGE_READY,
 } from "../shared/constants";
 import { isSameWindowBridgeEvent, postToPage } from "../shared/transport";
-import { browser } from "wxt/browser";
 import { isContextInvalidatedError, lastErrorMessage } from "../shared/webext";
 
 export type BridgeRetireReason =

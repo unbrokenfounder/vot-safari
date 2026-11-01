@@ -1,8 +1,8 @@
+import { browser } from "wxt/browser";
 import {
   createTerminalXhrError,
   type XhrResponse,
 } from "#extension/shared/xhr.ts";
-import { browser } from "wxt/browser";
 import { toErrorMessage } from "#utils/errors.ts";
 import { normalizeHttpMethod } from "#utils/http.ts";
 import logger from "#utils/logger.ts";

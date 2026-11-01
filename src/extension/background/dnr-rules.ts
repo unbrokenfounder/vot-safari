@@ -1,4 +1,4 @@
-import { browser, type Browser } from "wxt/browser";
+import { type Browser, browser } from "wxt/browser";
 import debug from "../../utils/debug";
 import {
   filterYandexHeadersForDnr,

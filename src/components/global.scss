@@ -1,14 +1,14 @@
 :root {
-  --vot-font-family: "Roboto", "Segoe UI", system-ui, sans-serif;
+  --vot-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", system-ui, "Segoe UI", Roboto, sans-serif;
 
-  --vot-primary-rgb: 139, 180, 245;
-  --vot-onprimary-rgb: 32, 33, 36;
-  --vot-surface-rgb: 32, 33, 36;
-  --vot-secondary-rgb: 43, 44, 48;
-  --vot-onsurface-rgb: 227, 227, 227;
+  --vot-primary-rgb: 250, 250, 250;
+  --vot-onprimary-rgb: 13, 13, 13;
+  --vot-surface-rgb: 13, 13, 13;
+  --vot-secondary-rgb: 38, 38, 38;
+  --vot-onsurface-rgb: 250, 250, 250;
 
-  --vot-danger-rgb: 255, 99, 99;
-  --vot-error-rgb: 242, 139, 130;
+  --vot-danger-rgb: 255, 84, 74;
+  --vot-error-rgb: 255, 105, 96;
 
   --vot-subtitles-color: rgb(var(--vot-onsurface-rgb, 227, 227, 227));
   --vot-subtitles-passed-color: rgb(var(--vot-primary-rgb, 139, 180, 245));
@@ -27,9 +27,9 @@
   --vot-space-6: 24px;
 
   --vot-radius-xs: 6px;
-  --vot-radius-s: 12px;
-  --vot-radius-m: 18px;
-  --vot-radius-l: 26px;
+  --vot-radius-s: 10px;
+  --vot-radius-m: 12px;
+  --vot-radius-l: 16px;
 
   --vot-border-color: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.14);
   --vot-border-color-hover: rgba(var(--vot-onsurface-rgb, 227, 227, 227), 0.22);
@@ -47,25 +47,25 @@
    * of the --vot-*-rgb tokens keep working. Opaque fallbacks are used when
    * backdrop-filter is missing or transparency is reduced.
    */
-  --vot-glass-alpha: 0.5;
-  --vot-glass-alpha-strong: 0.64;
+  --vot-glass-alpha: 0.8;
+  --vot-glass-alpha-strong: 0.8;
   --vot-glass-blur: 20px;
-  --vot-glass-saturate: 1.6;
-  --vot-glass-brightness: 0.85;
+  --vot-glass-saturate: 1;
+  --vot-glass-brightness: 1;
   --vot-glass-filter: blur(var(--vot-glass-blur))
   saturate(var(--vot-glass-saturate)) brightness(var(--vot-glass-brightness));
   --vot-glass-tint: rgba(
-    var(--vot-surface-rgb, 32, 33, 36),
+    var(--vot-surface-rgb, 13, 13, 13),
     var(--vot-glass-alpha)
   );
   --vot-glass-tint-strong: rgba(
-    var(--vot-surface-rgb, 32, 33, 36),
+    var(--vot-surface-rgb, 13, 13, 13),
     var(--vot-glass-alpha-strong)
   );
   --vot-glass-opaque: rgb(var(--vot-surface-rgb, 32, 33, 36));
-  --vot-glass-edge-light: rgba(255, 255, 255, 0.22);
-  --vot-glass-edge-dark: rgba(0, 0, 0, 0.18);
-  --vot-glass-border-color: rgba(255, 255, 255, 0.16);
+  --vot-glass-edge-light: rgba(255, 255, 255, 0.08);
+  --vot-glass-edge-dark: rgba(0, 0, 0, 0.3);
+  --vot-glass-border-color: rgba(255, 255, 255, 0.15);
   --vot-glass-highlight: inset 0 1px 0 var(--vot-glass-edge-light),
   inset 0 -1px 0 var(--vot-glass-edge-dark);
   --vot-glass-shadow: 0 0 0 0 transparent;
@@ -91,19 +91,17 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --vot-primary-rgb: 0, 111, 230;
-    --vot-onprimary-rgb: 255, 255, 255;
-    --vot-surface-rgb: 245, 245, 247;
-    --vot-secondary-rgb: 229, 229, 234;
-    --vot-onsurface-rgb: 28, 28, 30;
+    --vot-primary-rgb: 13, 13, 13;
+    --vot-onprimary-rgb: 250, 250, 250;
+    --vot-surface-rgb: 255, 255, 255;
+    --vot-secondary-rgb: 240, 240, 240;
+    --vot-onsurface-rgb: 13, 13, 13;
     --vot-danger-rgb: 200, 30, 30;
     --vot-error-rgb: 190, 40, 40;
 
-    --vot-glass-brightness: 1.05;
-    --vot-glass-edge-light: rgba(255, 255, 255, 0.7);
-    --vot-glass-edge-dark: rgba(0, 0, 0, 0.06);
+    --vot-glass-edge-light: rgba(255, 255, 255, 0.6);
+    --vot-glass-edge-dark: rgba(0, 0, 0, 0.04);
     --vot-glass-border-color: rgba(0, 0, 0, 0.1);
-    --vot-glass-shadow: 0 0 0 0 transparent;
   }
 }
 
@@ -127,12 +125,17 @@ vot-block [hidden]:not(.vot-menu) {
 
 // Use a stable typography baseline for all VOT UI.
 vot-block {
-  --vot-font-family: "Roboto", "Segoe UI", system-ui, sans-serif !important;
+  --vot-font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", system-ui, "Segoe UI", Roboto, sans-serif !important;
   font-family: var(
     --vot-font-family,
-    "Roboto",
-    "Segoe UI",
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "SF Pro Display",
+    "Helvetica Neue",
     system-ui,
+    "Segoe UI",
+    Roboto,
     sans-serif
   ) !important;
   font-weight: 400 !important;

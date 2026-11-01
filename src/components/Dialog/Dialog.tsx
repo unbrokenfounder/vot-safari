@@ -8,8 +8,8 @@ import {
 import { t } from "../../localization/localizationProvider";
 import { getDeepActiveElement } from "../../utils/dom";
 import { IconButton } from "../Button/IconButton";
-import { Overlay } from "../Utils/Overlay";
 import { CloseIcon } from "../Icons/CloseIcon";
+import { Overlay } from "../Utils/Overlay";
 
 export type DialogProps = {
   title: JSX.Element;

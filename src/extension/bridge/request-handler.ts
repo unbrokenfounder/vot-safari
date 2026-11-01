@@ -1,9 +1,9 @@
+import { browser } from "wxt/browser";
 import {
   type AnyObject,
   BG_MSG_STORAGE,
   BG_MSG_TELEMETRY_CONSENT,
 } from "../shared/constants";
-import { browser } from "wxt/browser";
 import { runtimeSendMessage } from "../shared/webext";
 
 export async function handleBridgeRequest(

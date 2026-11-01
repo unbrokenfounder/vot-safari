@@ -32,6 +32,15 @@
   outline: none;
   cursor: pointer;
   @include shared.vot-hidden-attr;
+  transition: transform var(--vot-duration-medium) var(--vot-easing-spring);
+
+  &:hover:not([disabled="true"], [aria-disabled="true"]) {
+    transform: scale(1.03);
+  }
+
+  &:active:not([disabled="true"], [aria-disabled="true"]) {
+    transform: scale(0.97);
+  }
 }
 
 @mixin vot-button-layers($before-color) {

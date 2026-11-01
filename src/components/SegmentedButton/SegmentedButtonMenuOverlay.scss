@@ -41,10 +41,8 @@
   &[data-position="right"] {
     .vot-menu {
       max-height: calc(
-        var(--vot-container-height, 75vh) - var(
-            --vot-menu-side-top-offset,
-            48px
-          ) -
+        var(--vot-container-height, 75vh) -
+          var(--vot-menu-side-top-offset, 48px) -
           16px
       );
     }

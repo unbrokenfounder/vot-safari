@@ -7,9 +7,14 @@
 @mixin vot-font-family {
   font-family: var(
     --vot-font-family,
-    "Roboto",
-    "Segoe UI",
+    -apple-system,
+    BlinkMacSystemFont,
+    "SF Pro Text",
+    "SF Pro Display",
+    "Helvetica Neue",
     system-ui,
+    "Segoe UI",
+    Roboto,
     sans-serif
   ) !important;
 }

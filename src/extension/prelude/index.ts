@@ -62,4 +62,3 @@ export function bootstrapExtensionPrelude(): void {
 
   void performHandshake();
 }
-

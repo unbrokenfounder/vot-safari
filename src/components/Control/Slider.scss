@@ -5,7 +5,9 @@
   --vot-slider-border-radius: 0.5em;
   --vot-slider-handle-bg: rgb(var(--vot-primary-rgb, 139, 180, 245));
   --vot-slider-handle-size: 44px;
-  --vot-slider-transition: var(--vot-duration-medium) var(--vot-easing-standard);
+  --vot-slider-transition: var(--vot-duration-medium) var(
+    --vot-easing-standard
+  );
 
   display: flex;
   align-items: center;
