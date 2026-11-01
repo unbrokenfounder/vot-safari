@@ -16,6 +16,7 @@ export function Overlay(props: OverlayProps): JSX.Element {
       classList={{ "vot-overlay": true, ...props.classList }}
       ref={props.ref}
       aria-hidden={props.hidden ? "true" : undefined}
+      inert={props.hidden ? true : undefined}
       {...props.blockProps}
     >
       {props.children}

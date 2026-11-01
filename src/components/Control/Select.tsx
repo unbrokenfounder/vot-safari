@@ -234,6 +234,21 @@ export function Select(props: SelectProps): JSX.Element {
       outerRef.focus();
     };
 
+    // The list is mounted outside of its overlay, so it must close itself when
+    // the overlay that owns the trigger gets hidden.
+    const owner = outerRef.closest(".vot-overlay");
+    const ownerObserver = owner
+      ? new MutationObserver(() => {
+          if (owner.getAttribute("aria-hidden") === "true") {
+            closeSelect();
+          }
+        })
+      : undefined;
+    ownerObserver?.observe(owner as Element, {
+      attributes: true,
+      attributeFilter: ["aria-hidden"],
+    });
+
     window.addEventListener("pointerdown", handlePointerDown, {
       capture: true,
       passive: true,
@@ -241,6 +256,7 @@ export function Select(props: SelectProps): JSX.Element {
     window.addEventListener("keydown", handleKeyDown, true);
 
     onCleanup(() => {
+      ownerObserver?.disconnect();
       window.removeEventListener("pointerdown", handlePointerDown, {
         capture: true,
       });

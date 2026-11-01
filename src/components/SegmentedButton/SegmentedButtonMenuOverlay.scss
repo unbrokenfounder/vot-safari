@@ -40,6 +40,14 @@
   &[aria-hidden="true"] {
     display: block;
     transform: translate(-50%, -8px) scale(0.96);
+
+    // Children force `visibility: visible` and `pointer-events: auto`
+    // (global `vot-block` / `.vot-menu` rules), so the hidden menu would stay
+    // clickable and cover the controls below it.
+    &,
+    * {
+      pointer-events: none !important;
+    }
   }
 
   &[data-position="left"],
