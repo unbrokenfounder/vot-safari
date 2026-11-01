@@ -26,6 +26,8 @@ export function Switch(props: SwitchProps): JSX.Element {
   const textId = createUniqueId();
 
   const [checked, setChecked] = createSignal(finalProps.checked);
+  // Keeps the bounce keyframes from playing for every switch on mount.
+  const [touched, setTouched] = createSignal(false);
 
   effect(() => {
     setChecked(finalProps.checked);
@@ -55,6 +57,7 @@ export function Switch(props: SwitchProps): JSX.Element {
         disabled={finalProps.disabled}
         onChange={(event) => {
           const nextChecked = event.currentTarget.checked;
+          setTouched(true);
           setChecked(nextChecked);
           finalProps.onChange?.(nextChecked);
         }}
@@ -76,7 +79,11 @@ export function Switch(props: SwitchProps): JSX.Element {
           </Show>
         </vot-block>
       </Show>
-      <vot-block class="vot-switch-track" data-checked={checked()}>
+      <vot-block
+        class="vot-switch-track"
+        classList={{ "is-init": touched() }}
+        data-checked={checked()}
+      >
         <vot-block class="vot-switch-handle" />
       </vot-block>
     </label>

@@ -9,7 +9,6 @@ import {
 import { effect } from "solid-js/web";
 
 import { RawButton } from "../Button/RawButton";
-import { ChevronIcon } from "../Icons/ChevronIcon";
 
 export type SettingsSectionProps = {
   title: string;
@@ -35,7 +34,7 @@ export function SettingsSection(props: SettingsSectionProps): JSX.Element {
   });
 
   return (
-    <vot-block class="vot-settings-section">
+    <vot-block class="vot-settings-section" data-open={isOpen()}>
       <RawButton
         class="vot-details vot-settings-section__header"
         buttonProps={{
@@ -49,21 +48,36 @@ export function SettingsSection(props: SettingsSectionProps): JSX.Element {
         }}
       >
         <vot-block>{finalProps.title}</vot-block>
-        <vot-block class="vot-details-arrow-icon">
-          <ChevronIcon />
+        <vot-block class="vot-settings-section__chevron">
+          <svg
+            aria-hidden="true"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M4 6.5L8 10.5L12 6.5" />
+          </svg>
         </vot-block>
       </RawButton>
 
-      <vot-block
-        class="vot-settings-section__content"
-        id={contentId}
-        role="region"
-        aria-labelledby={headerId}
-        hidden={!isOpen()}
-      >
-        <Show when={!finalProps.lazy || wasOpened()}>
-          {finalProps.children}
-        </Show>
+      <vot-block class="vot-settings-section__panel">
+        <vot-block class="vot-settings-section__panel-inner">
+          <vot-block
+            class="vot-settings-section__content"
+            id={contentId}
+            role="region"
+            aria-labelledby={headerId}
+          >
+            <Show when={!finalProps.lazy || wasOpened()}>
+              {finalProps.children}
+            </Show>
+          </vot-block>
+        </vot-block>
       </vot-block>
     </vot-block>
   );

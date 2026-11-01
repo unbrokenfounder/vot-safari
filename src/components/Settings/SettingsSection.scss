@@ -27,17 +27,70 @@
   }
 }
 
-.vot-settings-section__header .vot-details-arrow-icon {
-  width: 20px;
-  height: 20px;
-  font-size: 20px;
-  opacity: 0.5;
-  transform: rotate(-90deg);
-  transition: transform var(--vot-duration-medium) var(--vot-easing-spring);
+.vot-settings-section__chevron {
+  display: inline-flex;
+  opacity: 0.6;
+  transform: scaleY(1);
+  transform-origin: center;
+  transition: transform var(--vot-acc-chevron) var(--vot-acc-ease);
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  path {
+    vector-effect: non-scaling-stroke;
+  }
 }
 
-.vot-settings-section__header[data-open="true"] .vot-details-arrow-icon {
-  transform: rotate(0deg);
+.vot-settings-section[data-open="true"] .vot-settings-section__chevron {
+  transform: scaleY(-1);
+}
+
+// Height animates through grid rows (0fr -> 1fr): no JS measuring needed.
+// Padding must stay on the inner element, otherwise the track never closes.
+.vot-settings-section__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--vot-acc-collapse) var(--vot-acc-ease);
+}
+
+.vot-settings-section[data-open="true"] .vot-settings-section__panel {
+  grid-template-rows: 1fr;
+  transition: grid-template-rows var(--vot-acc-expand) var(--vot-acc-ease);
+}
+
+.vot-settings-section__panel-inner {
+  min-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  filter: blur(2px);
+  // Keeps collapsed controls out of the tab order without `inert`
+  // (unsupported in Firefox 106).
+  visibility: hidden;
+  transition:
+    opacity var(--vot-acc-collapse) var(--vot-acc-ease),
+    filter var(--vot-acc-collapse) var(--vot-acc-ease),
+    visibility 0s linear var(--vot-acc-collapse);
+}
+
+.vot-settings-section[data-open="true"] .vot-settings-section__panel-inner {
+  opacity: 1;
+  filter: blur(0);
+  visibility: visible;
+  transition:
+    opacity var(--vot-acc-expand) var(--vot-acc-ease),
+    filter var(--vot-acc-expand) var(--vot-acc-ease),
+    visibility 0s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vot-settings-section__panel,
+  .vot-settings-section__panel-inner,
+  .vot-settings-section__chevron {
+    transition: none !important;
+  }
 }
 
 .vot-settings-section__content {
