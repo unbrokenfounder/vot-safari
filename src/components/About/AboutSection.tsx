@@ -1,18 +1,11 @@
 import type { TMInfoScriptMeta } from "@toil/gm-types/types/info/tampermonkey";
-import { createResource, type JSX, Match, Show, Switch } from "solid-js";
+import { createResource, type JSX, Match, Switch } from "solid-js";
 import { LoadingDotsIcon } from "#components/Icons/LoadingDotsIcon.tsx";
 import { LATEST_RELEASE_URL } from "#modules/updater/const.ts";
 import { checkUpdate } from "#modules/updater/service.ts";
 import { getGMInfo } from "#utils/gm.ts";
-import {
-  localizationProvider,
-  t,
-} from "../../localization/localizationProvider";
-import { locale } from "../../stores/locale";
+import { t } from "../../localization/localizationProvider";
 import { getEnvironmentInfo } from "../../utils/environment";
-import { votStorage } from "../../utils/storage";
-import { formatDateTime } from "../../utils/timeFormatting";
-import { OutlinedButton } from "../Button/OutlinedButton";
 import { AboutItem } from "./AboutItem";
 
 export type AboutSectionProps = {
@@ -36,11 +29,6 @@ export function AboutSection(props: AboutSectionProps): JSX.Element {
     t("notFound");
   const browserInfo = `${envInfo.browser} (${envInfo.os})`;
 
-  const localeUpdatedAt = () =>
-    locale.updatedAt > 0
-      ? formatDateTime(locale.updatedAt, localizationProvider.lang)
-      : undefined;
-  const localeHashValue = () => locale.hash || t("notFound");
   const updaterState = () => {
     if (updaterResult.loading) return "loading";
     if (updaterResult.error) return "error";
@@ -97,7 +85,7 @@ export function AboutSection(props: AboutSectionProps): JSX.Element {
         </vot-block>
       </AboutItem>
       <AboutItem label={t("VOTAuthors")}>{scriptAuthors}</AboutItem>
-      <AboutItem label="Safari-версия">
+      <AboutItem label={t("VOTSafariVersion")}>
         <vot-block
           class="vot-about-item__credit-link"
           role="link"
@@ -114,30 +102,6 @@ export function AboutSection(props: AboutSectionProps): JSX.Element {
       </AboutItem>
       <AboutItem label={t("VOTLoader")}>{envInfo.loader}</AboutItem>
       <AboutItem label={t("VOTBrowser")}>{browserInfo}</AboutItem>
-      <AboutItem label={t("VOTLocaleHash")}>
-        {localeHashValue()}
-        <Show when={localeUpdatedAt()}>
-          {(updatedAt) => (
-            <>
-              <br />
-              <vot-block class="vot-about-item__value_detail">
-                ({t("VOTUpdatedDate").replace("{0}", updatedAt())})
-              </vot-block>
-            </>
-          )}
-        </Show>
-      </AboutItem>
-      <vot-block class="vot-about-section__actions">
-        <OutlinedButton
-          onClick={async () => {
-            await votStorage.set("localeHash", "");
-            await localizationProvider.update(true);
-            globalThis.location.reload();
-          }}
-        >
-          {t("VOTUpdateLocaleFiles")}
-        </OutlinedButton>
-      </vot-block>
     </vot-block>
   );
 }

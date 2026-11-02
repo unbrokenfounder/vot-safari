@@ -48,6 +48,8 @@ export type SegmentedButtonProps = {
   showPipButton?: boolean;
   layoutRoot?: HTMLElement;
   labelText: string;
+  /** Extra explanation shown in a tooltip while the button is in error state. */
+  hintText?: string;
   menuOpened?: boolean;
   onTranslateClick?: () => void;
   onVoiceChange?: (voice: VoiceType) => void;
@@ -252,7 +254,11 @@ export function SegmentedButton(props: SegmentedButtonProps): JSX.Element {
           when={!isColumnDirection()}
           fallback={
             <Tooltip
-              content={finalProps.labelText}
+              content={
+                finalProps.hintText
+                  ? `${finalProps.labelText}. ${finalProps.hintText}`
+                  : finalProps.labelText
+              }
               parentElement={tooltipLayoutRoot()}
               target={translationButton()}
               position={finalProps.tooltipPos}
@@ -269,6 +275,18 @@ export function SegmentedButton(props: SegmentedButtonProps): JSX.Element {
           <vot-block class="vot-segment-label">
             {finalProps.labelText}
           </vot-block>
+          <Show when={finalProps.hintText}>
+            {(hint) => (
+              <Tooltip
+                content={hint()}
+                parentElement={tooltipLayoutRoot()}
+                target={translationButton()}
+                position={finalProps.tooltipPos}
+                autoLayout={false}
+                hidden={needHideTooltip()}
+              />
+            )}
+          </Show>
           <RawButton
             class="vot-dropdown-arrow"
             ref={(element) => setVoiceSelectionButton(element)}

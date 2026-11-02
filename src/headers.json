@@ -1,7 +1,7 @@
 {
   "name": "VOT Safari",
   "description": "Озвучка и субтитры к видео на других языках в Safari.",
-  "version": "1.12.5",
+  "version": "1.12.8",
   "author": "Toil, SashaXser, MrSoczekXD, mynovelhost, sodapng",
   "namespace": "vot",
   "match": [

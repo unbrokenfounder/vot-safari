@@ -19,9 +19,15 @@ import {
   resolveButtonPositionFromPointer,
 } from "../../ui/buttonPlacement";
 import { clamp } from "../../utils/number";
+import {
+  acceptRussianSuggestion,
+  dismissRussianSuggestion,
+  shouldSuggestRussian,
+} from "../../utils/russianSuggestion";
 import { votStorage } from "../../utils/storage";
 import { isPiPAvailable } from "../../utils/utils";
 import type { SelectOption } from "../Control/Select";
+import { LanguageSuggestion } from "../LanguageSuggestion/LanguageSuggestion";
 import { PreviewSegmentedButtonOverlay } from "../SegmentedButton/PreviewSegmentedButtonOverlay";
 import type { SegmentedButtonControls } from "../SegmentedButton/SegmentedButton";
 import type { SegmentedButtonMenuControls } from "../SegmentedButton/SegmentedButtonMenu";
@@ -54,6 +60,7 @@ export type OverlayViewControls = {
   setIsLoading: (isLoading: boolean) => void;
   getIsLoading: () => boolean;
   setLabelText: (text: string) => void;
+  setHintText: (text: string | undefined) => void;
   setSubtitlesOptions: (options: SelectOption[]) => void;
   setSelectedSubtitles: (value: string) => void;
   getSelectedSubtitles: () => string;
@@ -158,6 +165,9 @@ export function OverlayView(props: OverlayViewProps): JSX.Element {
   const [subtitlesLoading, setSubtitlesLoading] = createSignal(false);
   const [status, setStatus] = createSignal(finalProps.status);
   const [labelText, setLabelText] = createSignal(t("translateVideo"));
+  const [hintText, setHintText] = createSignal<string>();
+  const [isRussianSuggested, setIsRussianSuggested] = createSignal(false);
+  void shouldSuggestRussian().then(setIsRussianSuggested);
   const [showTranslationVolume, setShowTranslationVolume] = createSignal(false);
   const [showDownloadTranslation, setShowDownloadTranslation] =
     createSignal(false);
@@ -221,6 +231,7 @@ export function OverlayView(props: OverlayViewProps): JSX.Element {
     setIsLoading,
     getIsLoading: isLoading,
     setLabelText,
+    setHintText,
     setSubtitlesOptions,
     setSelectedSubtitles,
     getSelectedSubtitles: selectedSubtitles,
@@ -631,6 +642,18 @@ export function OverlayView(props: OverlayViewProps): JSX.Element {
         rootElement = element;
       }}
     >
+      <Show when={isRussianSuggested()}>
+        <LanguageSuggestion
+          onAccept={async () => {
+            await acceptRussianSuggestion();
+            globalThis.location.reload();
+          }}
+          onDismiss={() => {
+            setIsRussianSuggested(false);
+            void dismissRussianSuggestion();
+          }}
+        />
+      </Show>
       <SegmentedButtonOverlay
         controlsRef={(controls) => (segmentedButtonControls = controls)}
         overlayRef={(element) => (buttonOverlay = element)}
@@ -640,6 +663,7 @@ export function OverlayView(props: OverlayViewProps): JSX.Element {
         hidden={buttonHidden()}
         status={status()}
         labelText={labelText()}
+        hintText={status() === "error" ? hintText() : undefined}
         tooltipPos={tooltipPos()}
         direction={direction()}
         isLoading={isLoading()}

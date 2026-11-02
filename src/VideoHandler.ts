@@ -847,8 +847,12 @@ export class VideoHandler {
    * @param {string} text The text to display.
    * @returns {VideoHandler} This instance.
    */
-  transformBtn(status: "none" | "success" | "error", text: string): this {
-    this.uiManager.transformBtn(status, text);
+  transformBtn(
+    status: "none" | "success" | "error",
+    text: string,
+    hint?: string,
+  ): this {
+    this.uiManager.transformBtn(status, text, hint);
     return this;
   }
 
@@ -1243,7 +1247,11 @@ export class VideoHandler {
     if (signal?.aborted || resolvedMessage === null) {
       return;
     }
-    this.transformBtn("error", resolvedMessage);
+    this.transformBtn(
+      "error",
+      resolvedMessage,
+      errorMessage instanceof VOTLocalizedError ? errorMessage.hint : undefined,
+    );
 
     if (signal?.aborted) {
       return;

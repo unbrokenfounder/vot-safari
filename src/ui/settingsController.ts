@@ -55,7 +55,6 @@ import { openAuthWindow } from "../modules/auth/window";
 import { updateAccountByCallbackData } from "../modules/auth/yandex";
 import type { HotkeyActionItem } from "../modules/hotkeys/types";
 import { account, resetAccount, updateAccount } from "../stores/account";
-import { setLocale } from "../stores/locale";
 import { setSettings } from "../stores/settings";
 import type { Position } from "../types/components/votButton";
 import type {
@@ -512,11 +511,6 @@ export class SettingsController {
             if (!result) {
               return;
             }
-            this.data.localeUpdatedAt = await votStorage.get(
-              "localeUpdatedAt",
-              0,
-            );
-            setLocale("updatedAt", 0);
             this.events["select:menuLanguage"].dispatch(item);
           },
         },

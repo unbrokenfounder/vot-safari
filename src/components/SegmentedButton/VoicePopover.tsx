@@ -6,6 +6,7 @@ import {
   mergeProps,
   on,
   onCleanup,
+  Show,
 } from "solid-js";
 
 import { t } from "../../localization/localizationProvider";
@@ -15,6 +16,7 @@ import { clamp } from "../../utils/number";
 import { LiveVoiceIcon } from "../Icons/LiveVoiceIcon";
 import { StandardVoiceIcon } from "../Icons/StandartVoiceIcon";
 import { createFloatingPosition } from "../Utils/createFloatingPosition";
+import { Tooltip } from "../Utils/Tooltip";
 
 export type VoiceType = "standard" | "live";
 
@@ -506,37 +508,52 @@ export function VoicePopover(props: VoicePopoverProps): JSX.Element {
     icon: JSX.Element,
   ): JSX.Element => {
     const isActive = () => activeVoice() === voice && !isVoiceLocked(voice);
+    const [item, setItem] = createSignal<HTMLElement>();
     return (
-      <vot-block
-        classList={{
-          "vot-voice-popover__item": true,
-          "vot-voice-popover__item--active": isActive(),
-          "vot-voice-popover__item--locked": isVoiceLocked(voice),
-        }}
-        role="menuitemradio"
-        tabIndex={isActive() ? 0 : -1}
-        aria-checked={isActive()}
-        aria-disabled={isVoiceLocked(voice)}
-        data-voice={voice}
-        onClick={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          selectVoice(voice);
-          queueMicrotask(() => anchor().focus());
-        }}
-      >
+      <>
         <vot-block
-          class={`vot-voice-popover__item-icon vot-voice-popover__item-icon--${voice}`}
+          ref={setItem}
+          classList={{
+            "vot-voice-popover__item": true,
+            "vot-voice-popover__item--active": isActive(),
+            "vot-voice-popover__item--locked": isVoiceLocked(voice),
+          }}
+          role="menuitemradio"
+          tabIndex={isActive() ? 0 : -1}
+          aria-checked={isActive()}
+          aria-disabled={isVoiceLocked(voice)}
+          data-voice={voice}
+          onClick={(event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            selectVoice(voice);
+            queueMicrotask(() => anchor().focus());
+          }}
         >
-          {icon}
-        </vot-block>
-        <vot-block class="vot-voice-popover__item-text">
-          <vot-block class="vot-voice-popover__item-title">{title}</vot-block>
-          <vot-block class="vot-voice-popover__item-subtitle">
-            {subtitle()}
+          <vot-block
+            class={`vot-voice-popover__item-icon vot-voice-popover__item-icon--${voice}`}
+          >
+            {icon}
+          </vot-block>
+          <vot-block class="vot-voice-popover__item-text">
+            <vot-block class="vot-voice-popover__item-title">{title}</vot-block>
+            <vot-block class="vot-voice-popover__item-subtitle">
+              {subtitle()}
+            </vot-block>
           </vot-block>
         </vot-block>
-      </vot-block>
+        <Show when={isVoiceLocked(voice) ? item() : undefined}>
+          {(target) => (
+            <Tooltip
+              content={t("VOTAccountRequired")}
+              parentElement={layoutRoot()}
+              target={target()}
+              position="right"
+              hidden={!isOpen()}
+            />
+          )}
+        </Show>
+      </>
     );
   };
 
@@ -592,10 +609,7 @@ export function VoicePopover(props: VoicePopoverProps): JSX.Element {
       {voiceItem(
         "live",
         t("VOTLiveVoicesTitle"),
-        () =>
-          isVoiceLocked("live")
-            ? t("VOTAccountRequired")
-            : t("VOTLiveVoicesSubtitle"),
+        () => t("VOTLiveVoicesSubtitle"),
         <LiveVoiceIcon />,
       )}
     </vot-block>

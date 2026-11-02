@@ -79,6 +79,7 @@ export const storageKeys = [
   "localeVersion",
   "localeUpdatedAt",
   "localeLangOverride",
+  "localeSuggestionDismissed",
   "account",
   "updaterInfo",
 ] as const;
@@ -172,6 +173,7 @@ export type StorageData = {
   localeVersion: string;
   localeUpdatedAt: number;
   localeLangOverride: string;
+  localeSuggestionDismissed: boolean;
   updaterInfo: UpdaterInfoStore;
 };
 

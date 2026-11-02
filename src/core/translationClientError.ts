@@ -8,6 +8,7 @@ import {
 export function mapVotClientErrorForUi(
   error: unknown,
   hasAccountToken = false,
+  proxyDisabled = false,
 ): unknown {
   const authErrorKind = getTranslationAuthErrorKind(error, { hasAccountToken });
   if (authErrorKind) {
@@ -19,6 +20,16 @@ export function mapVotClientErrorForUi(
   }
 
   if (!(error instanceof VOTJSError)) return error;
+
+  const isRequestFailure =
+    error.message === "Failed to request create session" ||
+    error.message === "Failed to request video translation";
+  if (proxyDisabled && isRequestFailure) {
+    return new VOTLocalizedError(
+      "requestTranslationFailed",
+      "VOTProxyRequiredHint",
+    );
+  }
 
   switch (error.message) {
     case "Yandex couldn't translate video":

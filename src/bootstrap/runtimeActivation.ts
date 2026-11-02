@@ -5,7 +5,6 @@ import {
 } from "../localization/localizationProvider";
 import { handleAuthCallbackPage } from "../modules/auth/message";
 import debug from "../utils/debug";
-import { isIframe } from "../utils/iframeConnector";
 
 type LogBootstrap = (
   message: string,
@@ -26,9 +25,6 @@ async function activateRuntime(
   }
 
   await ensureLocalizationProviderReady();
-  if (!isIframe() || !(await localizationProvider.hasUsableCache())) {
-    await localizationProvider.update();
-  }
   debug.log(`Selected menu language: ${localizationProvider.lang}`);
 }
 

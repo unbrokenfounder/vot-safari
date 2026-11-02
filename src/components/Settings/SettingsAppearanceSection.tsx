@@ -1,16 +1,9 @@
 import type { JSX } from "solid-js";
-import {
-  localizationProvider,
-  t,
-} from "../../localization/localizationProvider";
+import { t } from "../../localization/localizationProvider";
 import { setSettings, settings } from "../../stores/settings";
 import { type Position, positions } from "../../types/components/votButton";
 import { isPiPAvailable } from "../../utils/utils";
-import {
-  genSelectOptionsByLangs,
-  Select,
-  type SelectOption,
-} from "../Control/Select";
+import { Select, type SelectOption } from "../Control/Select";
 import { Slider } from "../Control/Slider";
 import { SliderLabel } from "../Control/SliderLabel";
 import { SliderWrapper } from "../Control/SliderWrapper";
@@ -40,10 +33,6 @@ export function SettingsAppearanceSection(
     label: t(`position.${position}`),
     value: position,
   }));
-
-  const langsOptions = genSelectOptionsByLangs(
-    localizationProvider.getAvailableLangs(),
-  );
 
   return (
     <SettingsSection title={t("appearance")}>
@@ -81,15 +70,6 @@ export function SettingsAppearanceSection(
         }}
       >
         {t("buttonPosition")}
-      </Select>
-      <Select
-        title={t("VOTMenuLanguage")}
-        options={langsOptions}
-        selectedValue={localizationProvider.langOverride}
-        onSelect={props.onLangSelect}
-        search={true}
-      >
-        {t("VOTMenuLanguage")}
       </Select>
     </SettingsSection>
   );

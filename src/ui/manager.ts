@@ -736,7 +736,7 @@ export class UIManager {
     );
   }
 
-  transformBtn(status: Status, text: string) {
+  transformBtn(status: Status, text: string, hint?: string) {
     if (!this.votOverlayView?.isInitialized()) {
       throw new Error("[VOT] OverlayController isn't initialized");
     }
@@ -746,6 +746,7 @@ export class UIManager {
       status === "error" && this.isLoadingText(text),
     );
     this.votOverlayView.overlayViewControls?.setLabelText(text);
+    this.votOverlayView.overlayViewControls?.setHintText(hint);
 
     return this;
   }

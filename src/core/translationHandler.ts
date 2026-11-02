@@ -581,6 +581,7 @@ export class VOTTranslationHandler {
         throw mapVotClientErrorForUi(
           res,
           hasAccountToken(this.videoHandler.data?.account),
+          this.videoHandler.data?.translateProxyEnabled === 0,
         );
       }
 
@@ -702,6 +703,7 @@ export class VOTTranslationHandler {
       const uiError = mapVotClientErrorForUi(
         err,
         hasAccountToken(this.videoHandler.data?.account),
+        this.videoHandler.data?.translateProxyEnabled === 0,
       );
       logger.error("[Translation] translation failed", {
         videoId: videoData.videoId,

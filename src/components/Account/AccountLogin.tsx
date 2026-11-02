@@ -1,6 +1,6 @@
 import { createSignal, type JSX, mergeProps, Show } from "solid-js";
-
 import { updateAccountByCallbackData } from "#modules/auth/yandex.ts";
+import { t } from "../../localization/localizationProvider";
 
 import { votStorage } from "../../utils/storage";
 import { GeneralButton } from "../Button/GeneralButton";
@@ -39,7 +39,7 @@ export function AccountLogin(props: AccountLoginProps): JSX.Element {
         code: value,
       });
     } catch {
-      setCodeError("Не удалось войти. Проверьте код или войдите заново.");
+      setCodeError(t("VOTLoginFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -48,7 +48,7 @@ export function AccountLogin(props: AccountLoginProps): JSX.Element {
   return (
     <vot-block ref={finalProps.ref} class="vot-account-login">
       <vot-block class="vot-account-login__hint">
-        Войдите, чтобы включить живые голоса
+        {t("VOTLoginForLiveVoices")}
       </vot-block>
       <vot-block
         class="vot-account-login__btn"
@@ -74,25 +74,24 @@ export function AccountLogin(props: AccountLoginProps): JSX.Element {
       >
         <vot-block class="vot-account-login__btn-icon" />
         <vot-block class="vot-account-login__btn-text">
-          Продолжить через Яндекс
+          {t("VOTContinueWithYandex")}
         </vot-block>
       </vot-block>
       <Show when={awaitingCode()}>
         <vot-block class="vot-account-login__code">
           <vot-block class="vot-account-login__code-hint">
-            Если окно Яндекса не закрылось само, скопируйте из него код и
-            вставьте сюда.
+            {t("VOTYandexCodeHint")}
           </vot-block>
           <vot-block class="vot-account-login__code-row">
             <Textfield
-              labelText="Код из окна Яндекса"
-              placeholder="Вставьте код"
+              labelText={t("VOTYandexCodeLabel")}
+              placeholder={t("VOTYandexCodePlaceholder")}
               value={code()}
               onInput={(value) => setCode(value)}
               onChange={(value) => setCode(value)}
             />
             <GeneralButton onClick={submitCode} disabled={isSubmitting()}>
-              Подтвердить
+              {t("VOTConfirm")}
             </GeneralButton>
           </vot-block>
           <Show when={codeError()}>

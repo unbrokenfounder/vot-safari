@@ -180,10 +180,6 @@
     &:focus-visible {
       background-color: transparent !important;
     }
-
-    .vot-voice-popover__item-subtitle {
-      color: var(--vot-helper-error, currentColor);
-    }
   }
 
   &__item-icon {

@@ -10,8 +10,12 @@ class VOTLocalizedError extends Error {
   /** Resolved localized message. */
   localizedMessage: string;
 
-  constructor(message: Phrase) {
+  /** Localized explanation shown as a tooltip next to the message. */
+  hint?: string;
+
+  constructor(message: Phrase, hint?: Phrase) {
     super(localizationProvider.getDefault(message));
+    if (hint) this.hint = t(hint);
     this.unlocalizedMessage = message;
     this.localizedMessage = t(message);
   }

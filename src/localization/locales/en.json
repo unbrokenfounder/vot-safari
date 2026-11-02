@@ -278,5 +278,19 @@
   "VOTCheckingForUpdate": "Checking for updates...",
   "VOTUpdateCheckFailed": "Couldn't check for updates",
   "VOTUpdateAvailable": "New version {0} is available",
-  "VOTUpdatedDate": "Updated {0}"
+  "VOTUpdatedDate": "Updated {0}",
+  "VOTCancel": "Cancel",
+  "VOTResetSettingsConfirm": "Are you sure you want to reset settings? All options will return to their defaults and you will need to sign in again.",
+  "VOTSafariVersion": "Safari version",
+  "VOTLoginForLiveVoices": "Sign in to enable live voices",
+  "VOTContinueWithYandex": "Continue with Yandex",
+  "VOTYandexCodeHint": "If the Yandex window didn't close on its own, copy the code from it and paste it here.",
+  "VOTYandexCodeLabel": "Code from the Yandex window",
+  "VOTYandexCodePlaceholder": "Paste the code",
+  "VOTConfirm": "Confirm",
+  "VOTLoginFailed": "Sign-in failed. Check the code or sign in again.",
+  "VOTLanguageSuggestionText": "Continue in Russian?",
+  "VOTLanguageSuggestionAccept": "Continue in Russian",
+  "VOTLanguageSuggestionDismiss": "Stay in English",
+  "VOTProxyRequiredHint": "Couldn't reach the translation server. Turn on proxying: Settings → Proxy settings → Proxying mode"
 }

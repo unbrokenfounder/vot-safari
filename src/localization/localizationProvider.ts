@@ -1,12 +1,11 @@
 import logger from "#utils/logger.ts";
-import { contentUrl } from "../config/config";
 import type { FlatPhrases, Locale, Phrase } from "../types/localization";
 import type { LocaleStorageKey } from "../types/storage";
-import { GM_fetch, getGMInfo } from "../utils/gm";
 import { lang } from "../utils/localization";
 import { votStorage } from "../utils/storage";
-import { getTimestamp, toFlatObj } from "../utils/utils";
+import { toFlatObj } from "../utils/utils";
 import rawDefaultLocale from "./locales/en.json";
+import rawRuLocale from "./locales/ru.json";
 
 export type LangOverride = Locale | "auto";
 
@@ -20,36 +19,14 @@ const LOCALE_STORAGE_KEYS: readonly LocaleStorageKey[] = [
 ];
 const DEFAULT_LOCALE: FlatPhrases = toFlatObj(rawDefaultLocale);
 
-const repoBranch =
-  typeof REPO_BRANCH !== "undefined" && REPO_BRANCH ? REPO_BRANCH : "master";
-const availableLocales: readonly LangOverride[] = (() => {
-  const locales =
-    typeof AVAILABLE_LOCALES !== "undefined" && Array.isArray(AVAILABLE_LOCALES)
-      ? AVAILABLE_LOCALES
-      : ["en"];
-
-  // Older extension builds injected AVAILABLE_LOCALES without the `auto`
-  // option. Always expose it so Settings -> Language can restore automatic
-  // detection.
-  return locales.includes("auto")
-    ? (locales as LangOverride[])
-    : (["auto", ...locales] as LangOverride[]);
-})();
-
-function resolveRuntimeLocaleVersion(
-  buildVersion: string,
-  scriptVersion: string,
-) {
-  return buildVersion || scriptVersion || "unknown";
-}
-
-function getRuntimeLocaleVersion() {
-  const buildVersion =
-    typeof VOT_VERSION === "undefined" ? "" : String(VOT_VERSION || "");
-  const scriptVersion = String(getGMInfo()?.script?.version || "");
-
-  return resolveRuntimeLocaleVersion(buildVersion, scriptVersion);
-}
+const BUNDLED_LOCALES: Record<Locale, FlatPhrases> = {
+  en: DEFAULT_LOCALE,
+  ru: toFlatObj(rawRuLocale) as FlatPhrases,
+};
+const availableLocales: readonly LangOverride[] = [
+  "auto",
+  ...(Object.keys(BUNDLED_LOCALES) as Locale[]),
+];
 
 class LocalizationProvider {
   /**
@@ -61,27 +38,21 @@ class LocalizationProvider {
    */
   locale: Partial<FlatPhrases>;
   readonly defaultLocale: FlatPhrases = DEFAULT_LOCALE;
-  readonly localesUrl = `${contentUrl}/${repoBranch}/src/localization/locales`;
-  readonly hashesUrl =
-    `${contentUrl}/${repoBranch}/src/localization/hashes.json`;
 
   private readonly warnedMissingKeys = new Set<string>();
   private _langOverride: LangOverride = "auto";
 
   constructor() {
     this.lang = this.getLang();
-    this.locale = {};
+    this.locale = BUNDLED_LOCALES[this.lang as Locale] ?? {};
   }
 
   async init() {
-    const [langOverride, phrases] = await Promise.all([
-      votStorage.get<LangOverride>("localeLangOverride", "auto"),
-      votStorage.get<string>("localePhrases", ""),
-    ]);
-    this._langOverride = langOverride;
-    this.lang = this.getLang();
-    this.setLocaleFromJsonString(phrases);
-    return this;
+    this._langOverride = await votStorage.get<LangOverride>(
+      "localeLangOverride",
+      "auto",
+    );
+    return this.update();
   }
 
   get langOverride() {
@@ -101,141 +72,21 @@ class LocalizationProvider {
     return this;
   }
 
-  private buildUrl(baseUrl: string, path = "", force = false) {
-    const query = force ? `?timestamp=${getTimestamp()}` : "";
-    return `${baseUrl}${path}${query}`;
-  }
-
   async changeLang(newLang: LangOverride) {
-    const oldLang = this.langOverride;
-    if (oldLang === newLang) {
+    if (this.langOverride === newLang) {
       return false;
     }
 
     await votStorage.set("localeLangOverride", newLang);
     this._langOverride = newLang;
-    this.lang = this.getLang();
-    await this.update(true);
+    await this.update();
     return true;
   }
 
-  async hasUsableCache(): Promise<boolean> {
-    const [storedLocaleLang, storedLocalePhrases] = await Promise.all([
-      votStorage.get<string>("localeLang", ""),
-      votStorage.get<string>("localePhrases", ""),
-    ]);
-    return storedLocaleLang === this.lang && !!storedLocalePhrases.trim();
-  }
-
-  async checkUpdates(force = false): Promise<false | null | string> {
-    logger.log("Check locale updates...");
-    try {
-      const runtimeLocaleVersion = getRuntimeLocaleVersion();
-      const [storedLocaleVersion, hasUsableCache] = await Promise.all([
-        votStorage.get<string>("localeVersion", ""),
-        this.hasUsableCache(),
-      ]);
-
-      // Locale files are versioned with the extension build. If the runtime
-      // version has not changed, the cached locale hash is still valid, but
-      // only when the cache actually holds phrases for the current language.
-      if (
-        !force &&
-        hasUsableCache &&
-        runtimeLocaleVersion !== "unknown" &&
-        storedLocaleVersion === runtimeLocaleVersion
-      ) {
-        return false;
-      }
-
-      const res = await GM_fetch(this.buildUrl(this.hashesUrl, "", force));
-      if (!res.ok) throw res.status;
-
-      const hashes = await res.json();
-      if (!hashes || typeof hashes !== "object") {
-        throw new Error("Invalid locale hashes payload");
-      }
-
-      const nextHash = (hashes as Record<string, unknown>)[this.lang];
-      if (typeof nextHash !== "string" || !nextHash) {
-        return false;
-      }
-
-      const currentHash = await votStorage.get<string>("localeHash", "");
-      return hasUsableCache && currentHash === nextHash ? false : nextHash;
-    } catch (err) {
-      logger.error("[localizationProvider] Failed to get locales hash:", err);
-      return null;
-    }
-  }
-
-  async update(force = false) {
-    const runtimeLocaleVersion = getRuntimeLocaleVersion();
-    const storedLocaleVersion = await votStorage.get<string>(
-      "localeVersion",
-      "",
-    );
-
-    const hash = await this.checkUpdates(force);
-    if (hash === null) {
-      // Do not update localeUpdatedAt on transient failures.
-      // This allows a near-term retry instead of waiting for cache TTL.
-      return this;
-    }
-
-    if (!hash) {
-      if (storedLocaleVersion !== runtimeLocaleVersion) {
-        await votStorage.set("localeVersion", runtimeLocaleVersion);
-      }
-      return this;
-    }
-
-    const timestamp = getTimestamp();
-    logger.log("Updating locale...");
-    try {
-      const res = await GM_fetch(
-        this.buildUrl(this.localesUrl, `/${this.lang}.json`, force),
-      );
-      if (!res.ok) throw res.status;
-
-      // Use `.text()` to keep a single storage format for GM_Storage/localStorage.
-      const text = await res.text();
-      this.setLocaleFromJsonString(text);
-      await Promise.all([
-        votStorage.set("localePhrases", text),
-        votStorage.set("localeHash", hash),
-        votStorage.set("localeLang", this.lang),
-        votStorage.set("localeVersion", runtimeLocaleVersion),
-        votStorage.set("localeUpdatedAt", timestamp),
-      ]);
-    } catch (err) {
-      logger.error("[localizationProvider] Failed to get locale:", err);
-      this.setLocaleFromJsonString(await votStorage.get("localePhrases", ""));
-    }
-
-    return this;
-  }
-
-  setLocaleFromJsonString(json: string) {
-    const trimmed = json.trim();
-    if (!trimmed) {
-      this.locale = {};
-      this.warnedMissingKeys.clear();
-      return this;
-    }
-
-    try {
-      const locale = JSON.parse(trimmed);
-      if (!locale || typeof locale !== "object" || Array.isArray(locale)) {
-        throw new Error("Locale payload should be a JSON object");
-      }
-
-      this.locale = toFlatObj(locale as Record<string, unknown>);
-    } catch (err) {
-      logger.error("[localizationProvider]", err);
-      this.locale = {};
-    }
-
+  /** Locales are bundled with the extension, so this never touches the network. */
+  async update() {
+    this.lang = this.getLang();
+    this.locale = BUNDLED_LOCALES[this.lang as Locale] ?? {};
     this.warnedMissingKeys.clear();
     return this;
   }
@@ -275,6 +126,11 @@ class LocalizationProvider {
 
   get(key: Phrase) {
     return this.getFromLocale(this.locale, key) ?? this.getDefault(key);
+  }
+
+  /** Phrase in a specific bundled locale, ignoring the active UI language. */
+  getFor(lang: Locale, key: Phrase) {
+    return BUNDLED_LOCALES[lang][key] ?? this.getDefault(key);
   }
 
   getLangLabel(lang: string) {

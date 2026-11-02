@@ -41,17 +41,16 @@ You SHOULD use `em` or `px` instead of `rem`.
 
 ## Localization
 
-You MUST use `t("key")` for all user-facing localized strings.
+The extension ships two bundled languages: English (default) and Russian. Both live in `src/localization/locales/{en,ru}.json` and are loaded without network requests.
 
-Do NOT hardcode localized text directly in the source code.
+You MUST use `t("key")` for all user-facing localized strings. Do NOT hardcode localized text directly in the source code.
 
-If a required localization key does not exist, do NOT modify localization files manually. Ask the user to add the new string by running:
+To add a phrase, edit by hand, in the same change:
 
-```bash
-bun localize
-```
+1. `src/localization/locales/en.json` and `src/localization/locales/ru.json`;
+2. the `Phrase` union and the `Phrases` type in `src/types/localization.ts`.
 
-Only use the new localization key after it has been added through this command.
+Do NOT run `bun localize`: it targets the removed multi-language setup.
 
 ## Commits
 

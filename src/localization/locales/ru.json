@@ -278,5 +278,20 @@
   "VOTCheckingForUpdate": "Проверяю наличие обновлений...",
   "VOTUpdateCheckFailed": "Не удалось проверить наличие обновлений",
   "VOTUpdateAvailable": "Доступна новая версия {0}",
-  "VOTUpdatedDate": "Обновлено {0}"
+  "VOTUpdatedDate": "Обновлено {0}",
+  "VOTCancel": "Отмена",
+  "VOTResetSettingsConfirm": "Вы точно хотите сбросить настройки? Все параметры вернутся к значениям по умолчанию, и вам придётся заново войти в аккаунт.",
+  "VOTSafariVersion": "Safari-версия",
+  "VOTLoginForLiveVoices": "Войдите, чтобы включить живые голоса",
+  "VOTContinueWithYandex": "Продолжить через Яндекс",
+  "VOTYandexCodeHint": "Если окно Яндекса не закрылось само, скопируйте из него код и вставьте сюда.",
+  "VOTYandexCodeLabel": "Код из окна Яндекса",
+  "VOTYandexCodePlaceholder": "Вставьте код",
+  "VOTConfirm": "Подтвердить",
+  "VOTLoginFailed": "Не удалось войти. Проверьте код или войдите заново.",
+  "VOTLanguageSuggestionText": "Продолжить на русском?",
+  "VOTLanguageSuggestionAccept": "Продолжить на русском",
+  "VOTLanguageSuggestionDismiss": "Остаться на английском",
+  "VOTProxyRequiredHint": "Не удалось подключиться к серверу перевода. Включите проксирование: Настройки → Настройки прокси-сервера → Режим проксирования",
+  "VOTFailedDownloadAudio": "Не удалось скачать аудио"
 }

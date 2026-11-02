@@ -14,6 +14,7 @@ import {
   SettingsHotkeySection,
   type SettingsHotkeySectionProps,
 } from "./SettingsHotkeySection";
+import { SettingsLanguageSwitch } from "./SettingsLanguageSwitch";
 import {
   SettingsMiscSection,
   type SettingsMiscSectionProps,
@@ -63,6 +64,7 @@ export function SettingsDialog(props: SettingsDialogProps): JSX.Element {
         <SettingsSection title={t("VOTMyAccount")} alwaysOpen>
           <AccountMenu {...props.account} />
         </SettingsSection>
+        <SettingsLanguageSwitch onLangSelect={props.appearance?.onLangSelect} />
         <SettingsTranslationSection {...props.translation} />
         <SettingsHotkeySection {...props.hotkeys} />
         <SettingsSubtitlesSection {...props.subtitles} />
@@ -85,7 +87,7 @@ export function SettingsDialog(props: SettingsDialogProps): JSX.Element {
         footer={
           <>
             <OutlinedButton onClick={() => setIsResetConfirmOpen(false)}>
-              Отмена
+              {t("VOTCancel")}
             </OutlinedButton>
             <GeneralButton
               onClick={() => {
@@ -99,8 +101,7 @@ export function SettingsDialog(props: SettingsDialogProps): JSX.Element {
         }
       >
         <vot-block class="vot-settings-confirm__text">
-          Вы точно хотите сбросить настройки? Все параметры вернутся к значениям
-          по умолчанию, и вам придётся заново войти в аккаунт.
+          {t("VOTResetSettingsConfirm")}
         </vot-block>
       </Dialog>
     </>
