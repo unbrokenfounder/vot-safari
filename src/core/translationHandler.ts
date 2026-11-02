@@ -22,7 +22,7 @@ import {
   NEVER_ABORTED_SIGNAL,
   throwIfAborted,
 } from "../utils/abort";
-import { hasAccountToken } from "../utils/account";
+import { hasAccountToken, hasValidAccountToken } from "../utils/account";
 import debug from "../utils/debug";
 import { getErrorMessage, isAbortError, makeAbortError } from "../utils/errors";
 import type { VideoHandler } from "../VideoHandler";
@@ -807,6 +807,7 @@ export class VOTTranslationHandler {
     let useLivelyVoice =
       !livelyDisabled &&
       livelyVoiceAllowed &&
+      hasValidAccountToken(this.videoHandler.data?.account) &&
       this.videoHandler.data?.useLivelyVoice !== false;
 
     debug.log("[Translation] requesting translation from VOT client", {

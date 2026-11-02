@@ -374,6 +374,7 @@ export class VideoHandler {
     const requestLangForApi = from as RequestLang;
     const useLivelyVoice =
       this.isLivelyVoiceAllowed(to as ResponseLang) &&
+      hasValidAccountToken(this.data?.account) &&
       this.data?.useLivelyVoice;
     const helpStr =
       translationHelp === undefined || translationHelp === null
