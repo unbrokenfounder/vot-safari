@@ -2,20 +2,22 @@ import { GM_fetch } from "#utils/gm.ts";
 import logger from "#utils/logger.ts";
 import { votStorage } from "#utils/storage.ts";
 import { compareVersions } from "#utils/utils.ts";
-import { REMOTE_VERSION_URL, UPDATE_CHECK_INTERVAL } from "./const.ts";
+import { LATEST_RELEASE_API_URL, UPDATE_CHECK_INTERVAL } from "./const.ts";
 import { setUpdaterInfo, type UpdaterInfoStore, updaterInfo } from "./store.ts";
-import type { ReleaseSchema } from "./types.ts";
+import type { LatestReleaseSchema } from "./types.ts";
 
 async function fetchRemoteVersion(): Promise<string> {
-  const res = await GM_fetch(REMOTE_VERSION_URL);
+  const res = await GM_fetch(LATEST_RELEASE_API_URL, {
+    headers: { Accept: "application/vnd.github+json" },
+  });
   if (!res.ok) {
     throw new Error(`Failed to fetch remote version: ${res.status}`);
   }
 
-  const data = (await res.json()) as ReleaseSchema;
-  const version = Object.values(data?.addons ?? {})[0]?.updates?.[0]?.version;
+  const data = (await res.json()) as LatestReleaseSchema;
+  const version = data?.tag_name?.replace(/^v/i, "");
   if (!version) {
-    throw new Error("Remote version is missing in the updates manifest");
+    throw new Error("Latest release has no tag name");
   }
   return version;
 }
