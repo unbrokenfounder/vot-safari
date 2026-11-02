@@ -9,6 +9,7 @@ import {
 } from "solid-js";
 
 import { t } from "../../localization/localizationProvider";
+import { account } from "../../stores/account";
 import { render } from "../../ui/solid/renderer";
 import { clamp } from "../../utils/number";
 import { LiveVoiceIcon } from "../Icons/LiveVoiceIcon";
@@ -289,7 +290,13 @@ export function VoicePopover(props: VoicePopoverProps): JSX.Element {
   });
   finalProps.controlsRef?.(controls);
 
+  const isVoiceLocked = (voice: VoiceType) =>
+    voice === "live" && !account.isLoggedIn;
+
   function selectVoice(voice: VoiceType): void {
+    if (isVoiceLocked(voice)) {
+      return;
+    }
     setActiveVoice(voice);
     clearHideTimer();
     finalProps.onVoiceChange?.(voice);
@@ -495,19 +502,21 @@ export function VoicePopover(props: VoicePopoverProps): JSX.Element {
   const voiceItem = (
     voice: VoiceType,
     title: string,
-    subtitle: string,
+    subtitle: () => string,
     icon: JSX.Element,
   ): JSX.Element => {
-    const isActive = () => activeVoice() === voice;
+    const isActive = () => activeVoice() === voice && !isVoiceLocked(voice);
     return (
       <vot-block
         classList={{
           "vot-voice-popover__item": true,
           "vot-voice-popover__item--active": isActive(),
+          "vot-voice-popover__item--locked": isVoiceLocked(voice),
         }}
         role="menuitemradio"
         tabIndex={isActive() ? 0 : -1}
         aria-checked={isActive()}
+        aria-disabled={isVoiceLocked(voice)}
         data-voice={voice}
         onClick={(event) => {
           event.preventDefault();
@@ -524,7 +533,7 @@ export function VoicePopover(props: VoicePopoverProps): JSX.Element {
         <vot-block class="vot-voice-popover__item-text">
           <vot-block class="vot-voice-popover__item-title">{title}</vot-block>
           <vot-block class="vot-voice-popover__item-subtitle">
-            {subtitle}
+            {subtitle()}
           </vot-block>
         </vot-block>
       </vot-block>
@@ -576,14 +585,17 @@ export function VoicePopover(props: VoicePopoverProps): JSX.Element {
       {voiceItem(
         "standard",
         t("VOTStandardVoicesTitle"),
-        t("VOTStandardVoicesSubtitle"),
+        () => t("VOTStandardVoicesSubtitle"),
         <StandardVoiceIcon />,
       )}
       <vot-block class="vot-voice-popover__divider" />
       {voiceItem(
         "live",
         t("VOTLiveVoicesTitle"),
-        t("VOTLiveVoicesSubtitle"),
+        () =>
+          isVoiceLocked("live")
+            ? t("VOTAccountRequired")
+            : t("VOTLiveVoicesSubtitle"),
         <LiveVoiceIcon />,
       )}
     </vot-block>

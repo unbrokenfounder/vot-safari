@@ -172,6 +172,20 @@
     }
   }
 
+  &__item--locked {
+    cursor: not-allowed;
+    opacity: 0.6;
+
+    &:hover,
+    &:focus-visible {
+      background-color: transparent !important;
+    }
+
+    .vot-voice-popover__item-subtitle {
+      color: var(--vot-helper-error, currentColor);
+    }
+  }
+
   &__item-icon {
     display: flex;
     flex: 0 0 auto;
